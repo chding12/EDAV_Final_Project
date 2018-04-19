@@ -64,6 +64,11 @@ temp <- temp[, -which(names(temp) %in% c("calendar_updated","has_availability","
                                          "cancellation_policy","require_guest_profile_picture",
                                          "require_guest_phone_verification","instant_bookable"))]
 
+## Charissa's update -- convert price to numeric
+temp$price <- lapply(temp$price, function(x) sub('[$]','',x))
+temp$price <- lapply(temp$price, function(x) sub('[,]','',x))
+temp$price <- as.numeric(as.character(temp$price))
+
 write.csv(temp, file = "cleaned_data.csv")
 
 ```

@@ -1,0 +1,187 @@
+---
+title: "Final_Project"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Quality
+### Missing Data
+
+```{r}
+options(warn=-1)
+
+library(readr)
+library(extracat)
+library(tidyverse)
+library(vcd)
+library(RColorBrewer)
+library(stringr)
+library(vcd)
+
+listings_short <- read_csv("~/Desktop/Columbia/Spring 2018/EDAV/Final_Project/cleaned_data.csv",col_types = cols())
+
+visna(listings_short)
+```
+
+```{r}
+d<-filter(listings_short,is.na(last_review))
+summary(d$number_of_reviews)
+```
+
+Missing data in the dataset has the following main patterns:
+
+Although in the plot above we see blue patterns frequently, the bars on the right indicate that there are only two major patterns -- no missing data, and data that are missing socre information + review information (first, last review, reviews per month) altogether.
+
+We suspect that these rows are missing information because they have low or zero reviews in place. To validate this hypothesis, we filtered the dataset to the ones that are missing 'last review', and found that almost all of these rows have 0 number of reviews. This explains the missing data pattern -- these places have very few or no reviews, and therefore are also missing score information that's most likely to be filled when users choose to leave a comment.
+
+## Exploratory Part
+
+### Overview
+
+Next, we are interested to find out how many listings there by boroughs, and also what the most popular NYC neighbourhoods are on Airbnb.
+
+```{r fig.height=5, fig.width=8}
+listing_by_borough <- listings_short %>% group_by(neighbourhood_group_cleansed) %>% summarize(count = n(),avg_price = mean(price),ttl_num_rev = sum(number_of_reviews))
+
+listing_by_borough
+
+most_popular_neighbourhood <- listings_short %>% group_by(neighbourhood_group_cleansed,neighbourhood_cleansed) %>% summarize(count = n(),avg_price = mean(price),ttl_num_rev = sum(number_of_reviews)) %>% arrange(desc(ttl_num_rev))
+
+most_popular_neighbourhood<-head(most_popular_neighbourhood,50)
+
+most_expensive_neighbourhood <- listings_short %>% group_by(neighbourhood_group_cleansed,neighbourhood_cleansed) %>% summarize(count = n(),avg_price = mean(price),ttl_num_rev = sum(number_of_reviews)) %>% arrange(desc(avg_price))
+
+most_expensive_neighbourhood<-head(most_expensive_neighbourhood,50)
+
+ggplot(most_popular_neighbourhood, aes(reorder(neighbourhood_cleansed,ttl_num_rev), ttl_num_rev,fill=neighbourhood_group_cleansed)) + geom_col() + coord_flip()+
+  ggtitle("Top 50 Most Reviewed Neighbourhoods") 
+
+ggplot(most_expensive_neighbourhood, aes(avg_price,reorder(neighbourhood_cleansed,avg_price))) + geom_point(aes(colour=neighbourhood_group_cleansed)) + 
+  ggtitle("Top 50 Most Expensive Neighbourhood")
+# 
+# listings_short<-listings_short %>% arrange(desc(number_of_reviews))
+# most_popular_single_listings <- head(listings_short,10)
+# most_popular_single_listings
+```
+
+1. Manhattan and Brooklyn have the most listings. On average, Manhattan is the most expensive, followed by Brooklyn, Staten Island, Queens, and Bronx.
+
+2. Top five most reviewed neighbourhoods are Bedford-Stuyvesant (Brooklyn), Williamsburg (Brooklyn), Harlem (Manhattan), Hell's Kitchen (Manhattan), and East Village (Manhattan).
+
+3. Top five most expensive neighbourhoods are Fort Wadsworth (Staten Island), Westerleigh (Staten Island), Lighthouse Hill (Staten Island), Woodrow (Staten Island), and Tribeca (Manhattan). Although Staten Island doesn't have many lisitngs, top four most expensive neighbourhood by average price are all in Staten Island.
+
+### Price Distribution
+
+#### Outliers
+```{r, fig.height=3, fig.width=5}
+boxplot(listings_short$price)
+hist(listings_short$price)
+summary(listings_short$price)
+```
+
+We then looked at the price per night range of all the listings, trying to identify outliers. We found that the vast majority of listings have a prive lower than 2000. In order to draw informative histrograms, we only kept observations with a price lower than 750.
+
+#### Price Histrograms
+```{r, fig.height=5, fig.width=8}
+listing_by_borough <- listings_short %>% group_by(neighbourhood_group_cleansed) %>% summarize(count = n(),avg_price = mean(price),avg_num_rev = mean(number_of_reviews))
+
+listing_leq_750 <- listings_short %>% filter(price<=750)
+
+ggplot(listing_leq_750, aes(price)) +
+  geom_histogram(color = 'black', fill = 'lightgray') +
+  ggtitle("Lising Price")
+
+ggplot(listing_leq_750, aes(price)) +
+  geom_histogram(color='black',size=0.2,fill='lightgray') +
+  facet_wrap(~neighbourhood_group_cleansed)+
+  ggtitle("Lising Price by Borough") 
+```
+
+Here we want to explore the distribution of listing prices. We first plotted an overall histrogram and learned that most listings are under \$200 per night, and the most common prices are between \$50 to \$100.
+
+We then faceted on borough, and further divided by room types. We can see that price distribution in Brooklyn is more right skewed than Manhattan, meaning that the prices in Brooklyn are in general lower than Manhattan. 
+
+### Room Types
+
+```{r}
+mosaic(room_type ~ neighbourhood_group_cleansed, listings_short,gp = gpar(fill =brewer.pal(3, "Pastel2"), col = "white"),labeling = labeling_border(varnames=c(FALSE,TRUE),rot_labels = c(10,0,0,10)))
+```     
+
+Next we are interested to see how room types are correlated with boroughs. Here we see that Manhattan hosts are more likely to list entre home/apt, while Queens and Brooklyn hosts are more likely to list private room within a house. Shared room takes very low share across all boroughs.
+
+#### Room Types + Price
+```{r}
+ggplot(listing_leq_750, aes(price, fill = room_type)) +
+  geom_histogram(color='black',size=0.2) +
+  facet_wrap(~neighbourhood_group_cleansed)+
+  ggtitle("Lising Price by Borough and Room Type") +
+  scale_fill_brewer(palette = 'Pastel2')
+```
+When combine room types and listing prices, we see that as price goes up, room type "Entire home/apt" starts to take a higher percentage. And this is true across all boroughs.
+
+### Pet Policy
+```{r}
+listings_pets <- read_csv("~/Desktop/Columbia/Spring 2018/EDAV/Final_Project/listings_pets.csv", col_types = cols())
+
+ls_pets <- listings_pets %>%
+  mutate(pets = ifelse(str_detect(amenities,'pets allowed') | str_detect(amenities,'cat') | str_detect(amenities,'dog'),1,0))
+
+ls_pets <- ls_pets %>%
+  mutate(dog = ifelse(str_detect(amenities,'dog'),1,0))
+
+ls_pets <- ls_pets %>%
+  mutate(cat = ifelse(str_detect(amenities,'cat'),1,0))
+
+ls_pets <- ls_pets %>%
+  mutate(Unspecified_Other = ifelse(cat==0 && dog==0,1,0))
+
+ls_pets <- ls_pets %>%
+  mutate(pet_category = ifelse(cat==1,'Cat',ifelse(dog==1,'Dog',ifelse(cat==0 && dog==0,'Unspecified'))))
+
+pets_only<-filter(ls_pets,pets==1)
+
+mosaic(pets ~ neighbourhood_group_cleansed, ls_pets, gp = gpar(fill = c('lightblue','lightgreen'), col = "white"), labeling = labeling_border(varnames=c(FALSE,TRUE),rot_labels = c(0,45,30,30)))
+
+ggplot(pets_only, aes(x=neighbourhood_group_cleansed, fill=pet_category)) +
+  geom_bar(position='dodge') +
+  scale_fill_brewer(palette = "Accent") +
+  ggtitle('Pet Policy by Borough and Pet Type')
+```
+
+We are also curious to see what the pet policy looks like. From the mosaic plot we see that only a small percentage of listings are willing to accept pets, across all boroughs. Brooklyn is slightly more pet friendly, compared to the others.
+
+From the stacked bar chart we can see that, among the listings that allow pets, cats are in general more welcomed than dogs, especially in Brooklyn. Also a large number of listings only indicates that they are pet freindly, but do not restrict to specific pet types.
+
+```{r}
+# library("tm")
+# library("SnowballC")
+# library("wordcloud")
+# library("RColorBrewer")
+# file_path<-"~/Desktop/Columbia/Spring 2018/EDAV/Final_Project/name.txt"
+# text<-readLines(file_path)
+# docs <-Corpus(VectorSource(text))
+# toSpace <- content_transformer(function (x , pattern ) gsub(pattern, " ", x))
+# docs<- tm_map(docs, toSpace, ',')
+# docs <- tm_map(docs, content_transformer(tolower))
+# docs <- tm_map(docs, removeWords, stopwords("english"))
+# docs <- tm_map(docs, removeWords, c("room","bedroom","apartment","apt"))
+# dtm <- TermDocumentMatrix(docs)
+# m <- as.matrix(dtm)
+# v <- sort(rowSums(m),decreasing=TRUE)
+# d <- data.frame(word = names(v),freq=v)
+# head(d, 10)
+# set.seed(1234)
+# wordcloud(words = d$word, freq = d$freq, min.freq = 1,
+#           max.words=200, random.order=FALSE, rot.per=0.35, 
+#           colors=brewer.pal(8, "Dark2"))
+```
+
+
+
+
+
