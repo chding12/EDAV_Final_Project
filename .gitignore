@@ -1,0 +1,17 @@
+.DS_Store
+adj_review.csv
+adj_summary.csv
+amenities.csv
+calendar.csv
+CleanedPlus.csv
+listings.csv
+listingsAll.csv
+neighbourhoods.csv
+project_cache/
+reviews.csv
+reviewsAll.csv
+reviewsAllPlus.csv
+reviewsPlus.csv
+neighbourhoods.geojson
+Exploratory_words_files/
+Exploratory_words_cache/

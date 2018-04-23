@@ -1,0 +1,229 @@
+---
+title: "Final project - use of words in airbnb dataset"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE, 
+                      cache = TRUE)
+```
+
+```{r}
+listingsAll <- read.csv('listingsAll.csv', stringsAsFactors=FALSE, sep=",")
+cleanedPlus <- read.csv("CleanedPlus.csv", stringsAsFactors=FALSE, sep=",")
+reviewsPlus <- read.csv('reviewsPlus.csv', stringsAsFactors=FALSE, sep=",")
+```
+
+## I. Overview
+### missing pattern in review data
+```{r fig.width=5, fig.height=5}
+library(extracat)
+visna(reviewsPlus, sort='c')
+```
+
+```{r}
+na_ind <- which(is.na(reviewsPlus$comments) == TRUE)
+length(na_ind)
+length(na_ind)/nrow(reviewsPlus)
+```
+
+### ratings distribution
+```{r}
+library(dplyr)
+mydata1 <- listingsAll %>% 
+  dplyr::select(summary, review_scores_rating) %>%
+  dplyr::filter(summary != '') %>%
+  dplyr::filter(!is.na(review_scores_rating))
+
+hist(mydata1$review_scores_rating)
+```
+
+## II. Listing summary
+### which adjective words appear most frequently in listing summary?
+
+```{r}
+#install.packages("wordcloud") 
+#install.packages("RColorBrewer") 
+library(wordcloud)
+library(RColorBrewer)
+
+adj_s_all <- read.csv('adj_summary.csv', stringsAsFactors=FALSE,sep = "#")
+adj_s_all$freq <- as.numeric(adj_s_all$freq)
+```
+
+```{r fig.height=8, fig.width=8}
+#all
+wordcloud(words = adj_s_all$word, freq = adj_s_all$freq,
+                      min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Paired"))
+```
+
+
+### Are words of summary in each rating category
+```{r fig.height=8, fig.width=8}
+library(ggplot2)
+
+adj_s_all %>%
+  group_by(category) %>%
+  top_n(n=10, wt=freq) %>%
+  ungroup() %>%
+  ggplot(aes(reorder(word, freq), freq, fill = category)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~category, scales = 'free') +
+  labs(y = "words frequency",
+       X="most frequent words") +
+  coord_flip()
+```
+
+## III. Amenities
+### What are the most frequent amenities words?
+```{r fig.height=8, fig.width=8}
+amenities <- read.csv("amenities.csv", stringsAsFactors=FALSE,sep = "#")
+
+amenities <- amenities[!startsWith(amenities$word, "translation missing"),]
+
+wordcloud(words = amenities$word, freq = amenities$freq, min.freq = 1,
+          max.words = 200, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+## IV. Reviews
+### which words appear in high-rating or low-rating reviews?
+```{r fig.width=8, fig.height=8}
+library(tidytext)
+library(reshape2)
+
+adj_r <- read.csv("adj_review.csv", stringsAsFactors=FALSE,sep = "#")
+adj_r_A <- adj_r %>%
+  filter(category == 'A') %>%
+  top_n(n=200, wt=freq)
+
+adj_r_C <- adj_r %>%
+  filter(category == 'C') %>%
+  top_n(n=200, wt=freq)
+
+# words in high-rating reviews
+df_A <- adj_r_A %>%
+  inner_join(get_sentiments("bing")) 
+wordcloud(df_A$word, df_A$freq,
+          ordered.colors=TRUE, max.words = 200, 
+          colors=brewer.pal(8, "Dark2")[factor(df_A$sentiment)])
+
+# words in low-rating reviews
+df_C <- adj_r_C %>%
+  inner_join(get_sentiments("bing")) 
+wordcloud(df_C$word, df_C$freq,
+          ordered.colors=TRUE, max.words = 200, 
+          colors=brewer.pal(8, "Dark2")[factor(df_C$sentiment)])
+
+```
+
+### Is the length of reviews of different room-types and boroughs different?
+```{r}
+rp <- reviewsPlus[complete.cases(reviewsPlus),]
+
+col_to_select <- c("id", "room_type", "neighbourhood_group_cleansed", 'rating_categ')
+sc <- cleanedPlus %>%
+  select(col_to_select)
+
+gl <- rp %>%
+  group_by(listing_id) %>%
+  summarize(
+    mean_adj=as.integer(mean(number_adj)),
+    total_adj=sum(number_adj),
+    mean_noun=as.integer(mean(number_noun)),
+    total_noun=sum(number_noun),
+    mean_words=as.integer(mean(number_words)),
+    total_words=sum(number_words),
+    review_counts=n(),
+    perc_adj=total_adj/total_words,
+    perc_noun=total_noun/total_words,
+    perc_other=1-(perc_adj+perc_noun)
+  ) %>%
+  inner_join(sc, by = c("listing_id" = "id"))
+
+
+```
+
+```{r}
+# library(vcd)
+r1 <- gl %>%
+  group_by(neighbourhood_group_cleansed, room_type) %>%
+  dplyr::summarise(avg_words = mean(mean_words))
+
+# Use position=position_dodge()
+p <- ggplot(data=r1, aes(x=neighbourhood_group_cleansed, 
+                    y=avg_words, fill=room_type)) +
+geom_bar(stat="identity", position=position_dodge())
+
+p + scale_fill_brewer(palette="Dark2")
+
+```
+
+### Does the length of review changes when people give good or bad reviews on each type of rooms? 
+```{r fig.width=5, fig.height=5}
+library(grid)
+r2 <- gl %>%
+  group_by(rating_categ, room_type) %>%
+  dplyr::summarise(avg_words = mean(mean_words))
+
+# mosaic plot  
+r2$room_type <- as.factor(r2$room_type)
+r2$rating_categ <- as.factor(r2$rating_categ)
+
+r2t <- xtabs(avg_words ~ rating_categ+room_type,
+                   r2)
+m2 <- vcd::mosaic(rating_categ~room_type, data=r2t,
+                  gp = gpar(fill = colors()[1:3]))
+
+# bar chart
+p <- ggplot(data=r2, aes(x=rating_categ, 
+                    y=avg_words, fill=room_type)) +
+geom_bar(stat="identity", position=position_dodge())
+p + scale_fill_brewer(palette="Spectral")
+```
+
+### Does the length of reviews become shorter or longer over time?
+```{r fig.width=5, fig.height=5}
+rpg <- rp %>%
+  left_join(sc, by = c("listing_id" = "id"))
+
+rpg$date <- as.Date(rpg$date)
+rpg$month <- as.Date(cut(rpg$date, breaks = "month"))
+rpg$week <- as.Date(cut(rpg$date, breaks = "week"))
+```
+
+#### monthly changes over years
+```{r}
+r3 <- rpg %>%
+  filter(date > "2014-01-01" & date <"2018-04-01") %>%
+  group_by(month, room_type) %>%
+  dplyr::summarise(avg_words = mean(number_words))
+
+p <- ggplot(r3, aes(x=month, y=avg_words)) +
+  geom_line(aes(color=room_type), size=1)
+
+p + scale_colour_brewer(palette = "Set1")
+```
+
+#### weekly changes in 2017
+```{r}
+r3 <- rpg %>%
+  filter(date > "2017-01-01" & date <"2018-01-31") %>%
+  group_by(week, room_type) %>%
+  dplyr::summarise(avg_words = mean(number_words))
+
+p <- ggplot(r3, aes(x=week, y=avg_words)) +
+  geom_line(aes(color=room_type), size=1) 
+
+p + scale_colour_brewer(palette = "Set1")
+
+```
+
+#### weekly patterns in different years
+```{r}
+
+```
