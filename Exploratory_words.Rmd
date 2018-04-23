@@ -16,7 +16,7 @@ reviewsPlus <- read.csv('reviewsPlus.csv', stringsAsFactors=FALSE, sep=",")
 ```
 
 ## I. Overview
-### missing pattern in review data
+### 1.1 missing pattern in review data
 ```{r fig.width=5, fig.height=5}
 library(extracat)
 visna(reviewsPlus, sort='c')
@@ -28,7 +28,7 @@ length(na_ind)
 length(na_ind)/nrow(reviewsPlus)
 ```
 
-### ratings distribution
+### 1.2 ratings distribution
 ```{r}
 library(dplyr)
 mydata1 <- listingsAll %>% 
@@ -40,7 +40,7 @@ hist(mydata1$review_scores_rating)
 ```
 
 ## II. Listing summary
-### which adjective words appear most frequently in listing summary?
+### 2.1 which adjective words appear most frequently in listing summary?
 
 ```{r}
 #install.packages("wordcloud") 
@@ -69,7 +69,7 @@ wordcloud(words = s1$word, freq = s1$freq,
 ```
 
 
-### Are words of summary in each rating category
+### 2.2 Are words of summary in each rating category
 ```{r fig.height=8, fig.width=8}
 library(ggplot2)
 
@@ -86,7 +86,7 @@ adj_s_all %>%
 ```
 
 ## III. Amenities
-### What are the most frequent amenities words?
+### 3.1 What are the most frequent amenities words?
 ```{r fig.height=8, fig.width=8}
 amenities <- read.csv("amenities.csv", stringsAsFactors=FALSE,sep = "#")
 
@@ -99,7 +99,7 @@ wordcloud(words = amenities$word, freq = amenities$freq, min.freq = 1,
 ```
 
 ## IV. Reviews
-### which words appear in high-rating or low-rating reviews?
+### 4.1 Which words appear in high-rating or low-rating reviews?
 ```{r fig.width=8, fig.height=8}
 library(tidytext)
 library(reshape2)
@@ -129,7 +129,7 @@ wordcloud(df_C$word, df_C$freq,
 
 ```
 
-### Is the length of reviews of different room-types and boroughs different?
+### 4.2 Is the length of reviews of different room-types and boroughs different?
 ```{r}
 rp <- reviewsPlus[complete.cases(reviewsPlus),]
 
@@ -171,7 +171,7 @@ p + scale_fill_brewer(palette="Dark2")
 
 ```
 
-### Does the length of review changes when people give good or bad reviews on each type of rooms? 
+### 4.3 Is the length of review on each type of rooms different? 
 ```{r fig.width=5, fig.height=5}
 library(grid)
 r2 <- gl %>%
@@ -194,7 +194,7 @@ geom_bar(stat="identity", position=position_dodge())
 p + scale_fill_brewer(palette="Spectral")
 ```
 
-### Does the length of reviews become shorter or longer over time?
+### 4.4 Does the length of reviews become shorter or longer over time?
 ```{r fig.width=5, fig.height=5}
 rpg <- rp %>%
   left_join(sc, by = c("listing_id" = "id"))
@@ -228,10 +228,5 @@ p <- ggplot(r3, aes(x=week, y=avg_words)) +
   geom_line(aes(color=room_type), size=1) 
 
 p + scale_colour_brewer(palette = "Set1")
-
-```
-
-#### weekly patterns in different years
-```{r}
 
 ```
