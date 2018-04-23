@@ -54,9 +54,17 @@ adj_s_all$freq <- as.numeric(adj_s_all$freq)
 
 ```{r fig.height=8, fig.width=8}
 #all
-wordcloud(words = adj_s_all$word, freq = adj_s_all$freq,
+words_to_remove <- c('nan', 'll')
+
+s1 <- adj_s_all %>%
+  select(c("word", "freq")) %>%
+  group_by(word) %>%
+  summarize(freq=sum(freq)) %>%
+  filter(!word %in% words_to_remove)
+
+wordcloud(words = s1$word, freq = s1$freq,
                       min.freq = 1,
-          max.words=200, random.order=FALSE, rot.per=0.35, 
+          max.words=200, random.order=FALSE, rot.per=0.35,
           colors=brewer.pal(8, "Paired"))
 ```
 
