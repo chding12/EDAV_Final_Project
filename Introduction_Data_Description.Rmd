@@ -1,0 +1,56 @@
+---
+title: "1_Introduction_2_Data_Description"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# EDAV Final Project -- Airbnb NYC Analysis
+
+## 1.Introduction
+
+For this EDAV final project, we chose to analyze Airbnb New York City data. We chose this topic because Airbnb is close to our daily life and we are interested to see the patterns of Airbnb housing that New York City has to offer.
+
+We are interested in getting a hollistic picture of the Airbnb trends in New York City; therefore we want to ask questions such as the following:
+
+- What is the geographic distribution of Airbnb housing in New York City? Where do postings tend to cluster?  
+- What are the price trends? Do they differ by boroughs?  
+- What are some of the most popular neighbourhoods?  
+- How do Airbnb hosts describe their spaces?  
+- What are some essential amenities in popular Airbnb spaces?  
+- What are the general policies regarding bringing pets?  
+- What are the key words people leave in comments, when they like or dislike a place?  
+
+### Our Team
+Chin-Wen Chang: 
+
+- Responsible for analyzing text data such as guest reviews and amenities lists, and general write-up.
+
+Chang Ding: 
+
+- Responsible for analyzing price distribution, room type and pet policy analysis, and general write-up.
+
+Midhun Gundapuneni: 
+
+- Responsible for developing the interactive component.
+
+## 2.Description of Data
+
+We obtained our data from the following website:
+<http://insideairbnb.com/get-the-data.html>
+
+This website collects publicly avaiable information from the Airbnb site. The data on this website "has been analyzed, cleansed and aggregated where appropriate to faciliate public discussion".
+
+More specifically, this website contains Airbnb data by city. Within each city, the website provides information about all the listings in that city, such as host name, location, price, rating, number of reviews, amennities, etc. The website also provides review texts and time stamps for each listing, as well as geographical information for the neighbourhoods in that city. The datasets get updated periodically and have been archived going back several years.
+
+We specifically picked datasets under the "New York City" section for this project, and used the most recent set of datasets that were updated on March 4th 2018.
+
+We primarily focus on two types of datasets:
+
+- Listing datasets that have all information at listing level. There are two listing datasets available, a short version consisting high level summary data, and a longer version that has more complete and detailed information. We primarily use the short version but have also merged necessary information such as rating scores and amenities texts from the longer version.
+
+- Review datasets that have review texts and date, as well as corresponding listings id and reviewer id.
+
+
