@@ -1,0 +1,25 @@
+---
+title: "Conclusion"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Conclusion
+
+While we were able to generate some very interesting insights into the utilization of Airbnb in New York City, there is a lot more to be explored on this topic from various aspects.
+
+Our analysis primarily focused on basic facts abour Airbnb listings such as their high level geographic distribution, price range, basic listing information and quick overview in the reivew texts. Each of these aspects can be developed into a deeper research topic with more time and resources allowed. 
+
+Some proposed future directions are:
+
+- Use the data to build models that predict future demands, price change, areas of improvement in NYC Airbnbs. 
+
+- Integrate existing data with user demographic information to learn how to better target user groups.
+
+- Include other hotel and real estate data to study the effects Airbnb has had on NYC's tourism and real estate markets.
+
+- Develop similar analysis on other cities, or develop comparative studies between cities.
+

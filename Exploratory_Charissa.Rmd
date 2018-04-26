@@ -118,16 +118,21 @@ ggplot(listing_leq_750, aes(price)) +
 
 Here we want to explore the distribution of listing prices. We first plotted an overall histrogram and learned that the listing prices are still highly right skewed even after cutting out outliers. Most listings have prices under \$200 per night, and the most common prices are between \$50 to \$100. Considering the average prices of hotels in New York City is somewhere around \$200 per night, Airbnb maybe a more economical choice. 
 
-We then faceted on boroughs, and see that price distribution in Brooklyn is even more highly skewed, whereas Manhattan's price distribution is a little more spread out. This tells us that Airbnb in Brooklyn in general are cheaper than the overall distribution in the last graph, while Airbnb in Manhattan is a little bit more expensive. 
+We then faceted on boroughs, and see that price distribution in Brooklyn is even more highly skewed, whereas Manhattan's price distribution is a little more spread out. 
 
-Consider our findings from the introductions - the fact that the top two most popular neighbourhoods are both located in Brooklyn maybe partially due to the lower price trends in this Borough.
+More specificly, Brooklyn tend to have a very high number of listings clustered in the price range of \$50 to \$100. Overall price distribution in Brooklyn is highly concentrated on the cheaper side-- over 90% of listings are below \$200 per night.
+
+Manhattan on the other hand has a more even distribution. The most frequent prices are still between \$50 - \$100 but with a much lower percentage. Average prices in Manhattan are high due to longer and fatter tails in the distribution. This tells us that Airbnb in Brooklyn in general are cheaper than the overall distribution in the last graph, while Airbnb in Manhattan is a little bit more expensive. 
+
+Consider our findings from the introduction section - the fact that the top two most popular neighbourhoods are both located in Brooklyn maybe partially due to the lower price trends in this Borough.
 
 ### Room Types
 
 We noticed that there are three types of room available across Airbnb postings - private room, shared room, or entire home or apartment. We are interested to see if the distribution of these room types are correlated with boroughs and we decide to use mosaic plot to explore that relationship.
 
 ```{r}
-mosaic(main = "Room Type by Boroughs",room_type ~ neighbourhood_group_cleansed, listings_short,gp = gpar(fill =brewer.pal(3, "Pastel2"), col = "white"),labeling = labeling_border(varnames=c(FALSE,FALSE),rot_labels = c(10,0,0,10)))
+p1<-mosaic(main = "Room Type by Boroughs",room_type ~ neighbourhood_group_cleansed, listings_short,gp = gpar(fill =brewer.pal(3, "Pastel2"), col = "white"),labeling = labeling_border(varnames=c(FALSE,FALSE),rot_labels = c(10,0,0,10)))
+p1
 ```     
 
 From this plot we see that room types are somewhat correlated with boroughs. More specifically, Manhattan hosts are more likely to list entire home/apt, while Queens and Brooklyn hosts are more likely to list private room within a house or apartment. Since Bronx and Staten Island have very small number of listings, their correlation with room types is nearly neglegible in the bigger picture. However, a further study on room types focused on these two boroughs may bring insteresting insights. Shared rooms are very rare across all boroughs. 
