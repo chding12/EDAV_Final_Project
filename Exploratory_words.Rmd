@@ -130,7 +130,7 @@ adj_s_all %>%
   coord_flip()
 ```
 
-When listing owners describe their place, they would intend not only to portray their spaces to impress visitors but also be authentic to the real condition to certain extent. It turns out from our data exploration that these subtlties can be observed from the use of adjective words in their listing summary. We studied the summary from each rating groups and found interesting different usage of adjective words.
+When listing owners describe their place, they would tend not only to portray their spaces to impress visitors but also be authentic to the real condition to certain extent. It turns out from our data exploration that these subtlties can be observed from the use of adjective words in their listing summary. We studied the summary from each rating groups and found interesting different usage of adjective words.
 
 Top 10 common adjective words are very similar among the three rating categories like "great", "private", "beautiful". Nevertheless, each group has one or two words different from the other group. Group A has the word "new", which does not appear in group B or C. Group A and Group B both has the word "comfortable", which is not present in group C. Both group B and C has the word "good", which is not in the top list in group A. In group C, without "new" and "comfortable", it has "available" instead. In conclusion, group A has "new" and "comfortable", while group B has "comfortable" and "good", and group C has "good" and "available". The meaning of the three combinations already reveal the real condition of the listings to certain extent, which is confirmed by the rating groups of review scores.  
 
@@ -244,7 +244,7 @@ ss <- gl %>%
 ss
 ```
 
-As each borough has its own characteristics and would attract visitors coming to NYC for differnt purposes, we would like to know if the length of reviews would be varied according to room-types in a specific borough. As we can see from the bar chart, there is no correlation of the length of reviews and boroughs. However, people intend to write longer reviews for entire home/apartment than for private room and shared room. It is worth pointing out that shared room on Staten Island has lengthy reviews compared to the other combinations. It might be due to a small number of reviews written for shared room on Staten Island, which is confirmed by finding out that there is onyl one review in the combination of these two categorical variables. The choice of color is vision deficiency friendly.      
+As each borough has its own characteristics and would attract visitors coming to NYC for differnt purposes, we would like to know if the length of reviews would be varied according to room-types in a specific borough. As we can see from the bar chart, there is no correlation of the length of reviews and boroughs. However, people tend to write longer reviews for entire home/apartment than for private room and shared room. It is worth pointing out that shared room on Staten Island has lengthy reviews compared to the other combinations. It might be due to a small number of reviews written for shared room on Staten Island, which is confirmed by finding out that there is onyl one review in the combination of these two categorical variables. The choice of color is vision deficiency friendly.      
 
 ### 4.4.3 Is the length of review of each room-type or rating category different?
 ```{r fig.width=5, fig.height=5}
