@@ -1,5 +1,5 @@
 ---
-title: "Final project - text analytics on airbnb dataset"
+title: "Final project - Text Analytics on Airbnb NYC dataset"
 output: html_document
 ---
 
@@ -9,34 +9,43 @@ knitr::opts_chunk$set(warning = FALSE,
                       cache = TRUE)
 ```
 
-Text analytics on airbnb dataset mainly focused on the three areas: listings summary, amenities description and review comments. The frist part is the description of preprocessing, following by the overview section including analysis of data quality and the interesting questions to address in each area. 
+In this part, we moved onto text analytics to reveal how listing owners portray their places and visitors describe their experiences and express their feelings after staying at a specific venue of Airbnb. Listing summary and amenities description provide a good clue to for the former question and reviews comments shed insights on the latter question. The use of adjective words are indicative of positive and negative sentiment of visitors' experiences. Moreover, we also investigated users' behviours on sharing their experiecens as well as change of user behaviour over time on Airbnb based on the length of reviews in the combination of different NYC boroughs, room-types or rating category.   
+
+Text analytics on Airbnb NYC dataset mainly focused on the three areas: listings summary, amenities description and review comments. The frist section is the description of preprocessing, following by the analysis of data quality and the interesting questions to address in each area. Following are the questions we asked to understand user behaviours and experiences on Airbnb: 
+
+- Which adjective words appear most frequently in listing summary?
+- Are words of summary in each rating category the same?
+- What are the most frequent amenities words?
+- Which adjective words appear in high-rating or low-rating reviews?
+- Is the length of reviews of each room-type or borough different?
+- Is the length of review of each room-type or rating category different?
+- Does the length of reviews become shorter or longer over time?
 
 ## Preprocessing
-Most of the preprocessing in text analytics was done in python. The python codes can be found in the jupyter notebook **TextAnalytics_preprocessing.ipynb** (https://github.com/chding12/EDAV_Final_Project/blob/master/TextAnalytics_preprocessing_NLP.ipynb). Originally we have **listingsAll.csv** and reviewsAll.csv containing airbnb dataset in the past 10 years. After the inital cleaning process (refer to https://github.com/chding12/EDAV_Final_Project/blob/master/clean_data.Rmd) based on listingsAll.csv, we created cleaned_data.csv containing the required columns.
+Most of the preprocessing in text analytics was done in python. The python codes can be found in the jupyter notebook **TextAnalytics_preprocessing.ipynb** (https://github.com/chding12/EDAV_Final_Project/blob/master/TextAnalytics_preprocessing_NLP.ipynb). Originally we have listingsAll.csv and reviewsAll.csv containing airbnb dataset in the past 10 years. After the inital cleaning process (refer to https://github.com/chding12/EDAV_Final_Project/blob/master/clean_data.Rmd) based on listingsAll.csv, we created cleaned_data.csv containing the required columns.
 
 In TextAnalytics_preprocessing.ipynb, 4 steps are executed to complete the preprocessing for text analytics. The dataset was first loaded into pandas dataframe (https://pandas.pydata.org/) and then processed. 
 
 1. Add rating ategory to the cleaned file
-We created a new column by assigning each listing with a category based their review scores. The distribution of review scores is shown in 1.3 ratings distribution of the Overview section and is used as references to create 3 categories of ratings (A, B and C). The new column "rating_categ" was combined to the cleaned data to create **CleanedPlus.csv**. 
+We created a new column by assigning each listing with a category based their review scores. The distribution of review scores is shown in 4.1.1 ratings distribution of the Overview section using dataset from **listingsAll.csv** and is used as references to create 3 categories of ratings (A, B and C). The new column "rating_categ" was combined to the cleaned data to create **CleanedPlus.csv**. 
 
 2. Adjective words in summary for visualization
-In order to plot a wordcloud of adjective words in summary, we created a table of words and its frequencies for each rating category. We first tokenized summary text in each rating category into individual words and did pos tagging to identify the part-of-speech tag of each word. As pos-tagging is case-sensitive, we only turned each words into lowercases later. The finalized data  with three columns (word, freq, category) was written to **adj_summary.csv**, consisting of all the three rating categories. This dataset is later used in the 2.1 and 2.2 of the Summary section.
+In order to plot a wordcloud of adjective words in summary, we created a table of words and its frequencies for each rating category. We first tokenized summary text in each rating category into individual words and did pos tagging to identify the part-of-speech tag of each word. As pos-tagging is case-sensitive, we only turned each words into lowercases later. The finalized data  with three columns (word, freq, category) was written to **adj_summary.csv**, consisting of all the three rating categories. This dataset is later used in the 4.2.1 and 4.2.2 of the Summary section.
 
 3. Adjective words in review for visualization
-We worked on review comments from reviewsAll.csv. (1) The review comments was tokenized into individual words. (2) English stopwords, such as "a", "the", etc..., were removed from the words. (3) Post tagging. (4) Find adjective words. (5) Find nouns. (6) Count the number of adjective, noun and total words. After the preprocessing, we kept only required columns for visualization to **reviewsPlus.csv**. This dataset is used in 1.1 for data quality analysis and in 4.2 to 4.4 of the Review section. Moreover, we counted adjective words in each rating category and stored the data of three columns (word, freq, category) to **adj_reviews.csv** for wordcloud visualization in 4.1 of the Review section. 
+We worked on review comments from reviewsAll.csv. (1) The review comments was tokenized into individual words. (2) English stopwords, such as "a", "the", etc..., were removed from the words. (3) Post tagging. (4) Find adjective words. (5) Find nouns. (6) Count the number of adjective, noun and total words. After the preprocessing, we kept only required columns for visualization to **reviewsPlus.csv**. This dataset is used in 3.2 for data quality analysis and in 4.4.2 to 4.4.4 of the Review section. Moreover, we counted adjective words in each rating category and stored the data of three columns (word, freq, category) to **adj_reviews.csv** for wordcloud visualization in 4.4.1 of the Review section. 
 
 4. Amenities word frequency
-Key words of amenities description were extracted and counted. The words and frequencies of amenities were written to **amenities.csv** for 3.1 in the Amenities section. 
+Key words of amenities description were extracted and counted. The words and frequencies of amenities were written to **amenities.csv** for 4.3.1 in the Amenities section. 
 
-## I. Overview
+## 3. Analysis of Data Quality
 ```{r}
 listingsAll <- read.csv('listingsAll.csv', stringsAsFactors=FALSE, sep=",", na.strings=c("","NA"))
 cleanedPlus <- read.csv("CleanedPlus.csv", stringsAsFactors=FALSE, sep=",")
 reviewsPlus <- read.csv('reviewsPlus.csv', stringsAsFactors=FALSE, sep=",")
 ```
-We first loaded the listings, cleaned file with rating category and reviews datasets. 
 
-### 1.1 Analysis of data quality - review data
+### 3.1 Analysis of data quality - review data
 ```{r fig.width=5, fig.height=5}
 library(extracat)
 visna(reviewsPlus, sort='c')
@@ -45,19 +54,24 @@ na_ind <- which(is.na(reviewsPlus$comments) == TRUE)
 length(na_ind)
 nrow(reviewsPlus)
 length(na_ind)/nrow(reviewsPlus)
+
 ```
-Here we investigated the missing data pattern in the review dataset. As you can see from the above figure, only one missing data pattern is observed. In the column of comments, some data is missing. It is hard to see the very thin red color representing the number of missing rows (870) in the plot, as he percentage of missing rows are very few (less than 0.001%) given the total number of rows is 896208. As you might observe that while comments are null, the newly created columns from the text preprocessing (number of words, adj and noun) are not null. Even they are supposed to be null due to lack of comments, other values instead of NA were used in the preprocessing. Later to analyze review comments in section IV, all the rows where comments are null were removed.   
+Here we investigated the missing data pattern in the review dataset. As you can see from the above figure, only one missing data pattern is observed. In the column of comments, some data is missing. It is hard to see the very thin red color representing the number of missing rows (870) in the plot, as the percentage of missing rows are very few (less than 0.001%) given the total number of rows is 896208. As you might observe that while the column "comments" are null, the newly created columns based on "comments" from the text preprocessing (number of words, adj and noun) are not null. Even they are supposed to be null due to lack of comments, other values instead of NA during preprocessing were used in the preprocessing. Later to analyze review comments in section IV, all the rows where comments are null were removed.   
  
-### 1.2 Analysis of data quality - listing data of summary and review scores only
+### 3.2 Analysis of data quality - listing data of summary and review scores only
 ```{r}
+library(dplyr)
 ls <- listingsAll %>%
   select(summary, review_scores_rating)
+
 visna(ls, sort='c')
 ```
 
 As you can see from the above plot, three missing pattern of summary and review scores in the listingsAll dataset are present. Most listings have both reviews scores and summary. Records having missing value in review scores only are around 1/3 of the complete recoreds, while a very small portion of records miss only summary or both reviews scores and summary. As we needed both summary and review scores for later text analysis, rows where either of these two columns are null were removed before ploting the reviews scores distribution in 1.3.  
 
-### 1.3 ratings distribution
+# 4. Main Analysis (Exploratory Data Analysis)
+## I.Overview
+### 4.1.1 ratings distribution
 ```{r}
 library(dplyr)
 mydata1 <- ls %>%
@@ -66,10 +80,11 @@ mydata1 <- ls %>%
 hist(mydata1$review_scores_rating)
 ```
 
-The purpose of this plot is to observ the distribution of review scores of each listing to come up with three rating categories. Category A indicates excellent listings with reviews scores from 90 to 100. Category B represent the good listings with reviews scores ranging between 75 to 90. Category C is a group of not-so-good listings where reviews scores are less than 75. It is interesting to notice that the majority of listings have high review scores. 
+The purpose of this plot is to observe the distribution of review scores of each listing to come up with three rating categories. Category A indicates excellent listings with reviews scores from 90 to 100. Category B represent the good listings with reviews scores ranging between 75 to 90. Category C is a group of not-so-good listings where reviews scores are less than 75. It is interesting to notice that the majority of listings have high review scores. 
+
 
 ## II. Listing summary
-### 2.1 which adjective words appear most frequently in listing summary?
+### 4.2.1 Which adjective words appear most frequently in listing summary?
 
 ```{r}
 #install.packages("wordcloud") 
@@ -81,7 +96,6 @@ adj_s_all <- read.csv('adj_summary.csv', stringsAsFactors=FALSE,sep = "#")
 adj_s_all$freq <- as.numeric(adj_s_all$freq)
 ```
 
-We loaded preprocessed summary dataset from adj_summary.csv. All the three rating category are in this data and it contains word frequency of each rating category.  
 ```{r fig.height=8, fig.width=8}
 #all
 words_to_remove <- c('nan', 'll')
@@ -98,9 +112,9 @@ wordcloud(words = s1$word, freq = s1$freq,
           colors=brewer.pal(8, "Paired"))
 ```
 
-As we can see from the wordcloud representing most common adjective words in the listing summary, "private" is the most frequently used words to describe a listing. The other common words can be divided into two groups. First group, such "beautiful", "great", "comfortable", expresses abstract ideas of the venue to stimulate reader's imagination, while the second group, such as "new", "quiet", "spacious", "large", "clean", gives readers more hints on the physical condition of the place to bring vivid pictures in user's imagination. 
+What aspects listing owners think are the most important and attractive to visitors can be shown by how they describe their spaces. As we can see from the wordcloud representing most common adjective words in the listing summary, "private" is the most frequently used words to describe a listing. It corresponds to the nature of Airbnb business model as it is based on the concept of sharing hosts' personal housing with visitors. The other common words can be divided into two groups. First group, such "beautiful", "great", "comfortable", expresses abstract ideas of the venue to stimulate reader's imagination, while the second group, such as "new", "quiet", "spacious", "large", "clean", gives readers more hints on the physical condition of the place to bring vivid pictures into user's imagination. 
 
-### 2.2 Are words of summary in each rating category the same?
+### 4.2.2 Are words of summary in each rating category the same?
 ```{r fig.height=8, fig.width=8}
 library(ggplot2)
 
@@ -108,7 +122,7 @@ adj_s_all %>%
   group_by(category) %>%
   top_n(n=10, wt=freq) %>%
   ungroup() %>%
-  ggplot(aes(reorder(word, freq), freq, fill = category)) +
+  ggplot(aes(reorder(word, freq), freq)) +
   geom_col(show.legend = FALSE) +
   facet_wrap(~category, scales = 'free') +
   labs(y = "words frequency",
@@ -116,10 +130,12 @@ adj_s_all %>%
   coord_flip()
 ```
 
-Top 10 common adjective words are very similar among the three rating categories. Each group has one or two word different from the other group. Group A has the word "new", which does not appear in group B or C. Group A and Group B both has the word "comfortable", which is not present in group C. Both group B and C has the word "good", which is not in the top list in group A. In group C, without "new" and "comfortable", it has "available" instead. In conclusion, group A has "new" and "comfortable", while group B has "comfortable" and "good", and group C has "good" and "available". It is interesting to see that subtle change of word usage in the summary of listings from each rating group, isn't it?     
+When listing owners describe their place, they would intend not only to portray their spaces to impress visitors but also be authentic to the real condition to certain extent. It turns out from our data exploration that these subtlties can be observed from the use of adjective words in their listing summary. We studied the summary from each rating groups and found interesting different usage of adjective words.
+
+Top 10 common adjective words are very similar among the three rating categories like "great", "private", "beautiful". Nevertheless, each group has one or two words different from the other group. Group A has the word "new", which does not appear in group B or C. Group A and Group B both has the word "comfortable", which is not present in group C. Both group B and C has the word "good", which is not in the top list in group A. In group C, without "new" and "comfortable", it has "available" instead. In conclusion, group A has "new" and "comfortable", while group B has "comfortable" and "good", and group C has "good" and "available". The meaning of the three combinations already reveal the real condition of the listings to certain extent, which is confirmed by the rating groups of review scores.  
 
 ## III. Amenities
-### 3.1 What are the most frequent amenities words?
+### 4.3.1 What are the most frequent amenities words?
 ```{r fig.height=8, fig.width=8}
 amenities <- read.csv("amenities.csv", stringsAsFactors=FALSE,sep = "#")
 
@@ -131,7 +147,7 @@ wordcloud(words = amenities$word, freq = amenities$freq, min.freq = 1,
 
 ```
 
-Word frequency of amenities in listings are shown in the above wordcloud figure. When it comes to amenities, listing owners are mostly concerned with three areas basics, technology and safety. 
+Apart from listing summary, amenities provide a clue how owners descrbe their spaces to make it more attractive to potential to visitors. Word frequency of amenities in listings are shown in the above wordcloud figure. When it comes to amenities, listing owners mostly focus on three areas basics, technology and safety. 
 
 - Basics: "essentials", "hangers", "shampoo", "hair dryer"
 - General Facility: "kitchen", "heating", "air conditioning"
@@ -141,7 +157,7 @@ Word frequency of amenities in listings are shown in the above wordcloud figure.
 Apparently, "kitchen", "heating" and "air conditioning", which provides comfort to a venue, are very often mentioned as part of the amenities provided by the listing. Safety is considered very important by the owners as those three words are comparably large as well. In terms of technology, "Wifi", providing our connection to the world, is as essential as elements providing pyhsical comfort such as "kitchen"" or "heating". Commonly mentioned items in basics include "hangers", "hair dryer" and "shampoo". These things are comparably easier to provide and it is nice to have them when visitors temporily stay at a place.
 
 ## IV. Reviews
-### 4.1 Which words appear in high-rating or low-rating reviews?
+### 4.4.1 Which words appear in high-rating or low-rating reviews?
 ```{r fig.width=8, fig.height=8}
 library(tidytext)
 library(reshape2)
@@ -155,25 +171,28 @@ adj_r_C <- adj_r %>%
   filter(category == 'C') %>%
   top_n(n=200, wt=freq)
 
+# The palette with black:
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
 # words in high-rating reviews
 df_A <- adj_r_A %>%
   inner_join(get_sentiments("bing")) 
 wordcloud(df_A$word, df_A$freq,
           ordered.colors=TRUE, max.words = 200, 
-          colors=brewer.pal(8, "Dark2")[factor(df_A$sentiment)])
+          colors=cbbPalette[factor(df_A$sentiment)])
 
 # words in low-rating reviews
 df_C <- adj_r_C %>%
   inner_join(get_sentiments("bing")) 
 wordcloud(df_C$word, df_C$freq,
           ordered.colors=TRUE, max.words = 200, 
-          colors=brewer.pal(8, "Dark2")[factor(df_C$sentiment)])
+          colors=cbbPalette[factor(df_C$sentiment)])
 
 ```
 
-We first did sentiment analysis on the adjective words of the reivews to identify words with positive or negative sentiments. As it is shown in the above two wordclouds, mostly positive words appeared in the reviews of listings with good ratings (Group A). As we moved to group C, although we could still see a few positive words in the reviews, more negative words appeared. Moreover, some words, such as "wonderful", "super", and "fantastic", to express exceptionally good feelings or opinions became less obvious or disappeared in the group C wordcloud.
+Visitors' experiences after staying in a listing can be revealed by sentiment analysis on the words in their reviews. We first did sentiment analysis on the adjective words of the reivews to identify words with positive or negative sentiments. As it is shown in the above two wordclouds, mostly positive words appeared in the reviews of listings with good ratings (Group A). As we moved to group C, although we could still see a few positive words in the reviews, more negative words appeared. Moreover, some words, such as "wonderful", "super", and "fantastic", to express exceptionally good feelings or opinions became less obvious or disappeared in the group C wordcloud.
 
-### 4.2 Is the length of reviews of each room-type or borough different?
+### 4.4.2 Is the length of reviews of each room-type or borough different?
 ```{r}
 rp <- reviewsPlus[complete.cases(reviewsPlus),]
 
@@ -196,9 +215,9 @@ gl <- rp %>%
     perc_other=1-(perc_adj+perc_noun)
   ) %>%
   inner_join(sc, by = c("listing_id" = "id"))
-
-
 ```
+
+Here we created columns required for analysis on reviews. In the following analysis on the length of reviews, we used the average words of reviews to represent this feature. 
 
 ```{r}
 # library(vcd)
@@ -211,13 +230,23 @@ p <- ggplot(data=r1, aes(x=neighbourhood_group_cleansed,
                     y=avg_words, fill=room_type)) +
 geom_bar(stat="identity", position=position_dodge())
 
-p + scale_fill_brewer(palette="Dark2")
+# The palette with black:
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
+p + scale_fill_manual(values=cbbPalette)
+
+# check the number of reviews of shared room in Staten Island
+ss <- gl %>%
+  filter(room_type == "Shared room") %>%
+  filter(neighbourhood_group_cleansed == "Staten Island") %>%
+  count()
+
+ss
 ```
 
+As each borough has its own characteristics and would attract visitors coming to NYC for differnt purposes, we would like to know if the length of reviews would be varied according to room-types in a specific borough. As we can see from the bar chart, there is no correlation of the length of reviews and boroughs. However, people intend to write longer reviews for entire home/apartment than for private room and shared room. It is worth pointing out that shared room on Staten Island has lengthy reviews compared to the other combinations. It might be due to a small number of reviews written for shared room on Staten Island, which is confirmed by finding out that there is onyl one review in the combination of these two categorical variables.      
 
-
-### 4.3 Is the length of review on each type of rooms different? 
+### 4.4.3 Is the length of review of each room-type or rating category different?
 ```{r fig.width=5, fig.height=5}
 library(grid)
 r2 <- gl %>%
@@ -231,16 +260,20 @@ r2$rating_categ <- as.factor(r2$rating_categ)
 r2t <- xtabs(avg_words ~ rating_categ+room_type,
                    r2)
 m2 <- vcd::mosaic(rating_categ~room_type, data=r2t,
-                  gp = gpar(fill = colors()[1:3]))
+                  gp = gpar(fill = cbbPalette[4:6]))
 
 # bar chart
 p <- ggplot(data=r2, aes(x=rating_categ, 
                     y=avg_words, fill=room_type)) +
 geom_bar(stat="identity", position=position_dodge())
-p + scale_fill_brewer(palette="Spectral")
+p + scale_fill_manual(values=cbbPalette)
 ```
 
-### 4.4 Does the length of reviews become shorter or longer over time?
+The length of reviews is a feature to observe how visitors would describe their good or not-so-good experiences and to see if difference exist among room types. In the mosaic plot, we can see there is an interaction between room type and rating category. While the number of words does not vary much for each rating category for shared room, it changes when people stay in entire home/apartment or private room with good experiences (rating group A or B). This observation reveals an interesing aspect of human behaviours showing that people are willing to put more efforts in terms of review length to talk about their good or wonderful experiences than average ones. 
+
+The change of review length is more prominent when we presented it using bar chart stratified by room types within each rating group. There is not difference among room types when people talk about not-so-satisfying experiences as shown in group C. In contrast, people use more words to describe their good and wonderful experiences (as shown in Group A and B) and, similar to the previous observation in section 4.4.2, the length of reviews increases from shared room, private room to entire home/apartment when visitors talk about their experiences in those difference venues. 
+
+### 4.4.4 Does the length of reviews become shorter or longer over time?
 ```{r fig.width=5, fig.height=5}
 rpg <- rp %>%
   left_join(sc, by = c("listing_id" = "id"))
@@ -248,8 +281,8 @@ rpg <- rp %>%
 rpg$date <- as.Date(rpg$date)
 rpg$month <- as.Date(cut(rpg$date, breaks = "month"))
 rpg$week <- as.Date(cut(rpg$date, breaks = "week"))
-```
 
+```
 #### monthly changes over years
 ```{r}
 r3 <- rpg %>%
@@ -260,7 +293,10 @@ r3 <- rpg %>%
 p <- ggplot(r3, aes(x=month, y=avg_words)) +
   geom_line(aes(color=room_type), size=1)
 
-p + scale_colour_brewer(palette = "Set1")
+# The palette with grey:
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+p + scale_color_manual(values=cbPalette)
 ```
 
 #### weekly changes in 2017
@@ -273,6 +309,10 @@ r3 <- rpg %>%
 p <- ggplot(r3, aes(x=week, y=avg_words)) +
   geom_line(aes(color=room_type), size=1) 
 
-p + scale_colour_brewer(palette = "Set1")
+p + scale_color_manual(values=cbPalette)
 
 ```
+
+One way to follow the change of users' behaviour on Airbnb over time is to see the amount of efforts they are willing to share their experiences, suggested by the length of review in the past years. The first time series plot clearly demonstrates that the number of reviews decreases over years and is independent of room types. In general, the number of reviews drops at the beginning of a year after the peak in the previous year. Again, the number peaks around Spring and Summer. It decreases for a few months and reaches a peak at the end of a year corresponding to Christmas holidays. There exists difference of reviews length over time among room types, but the overal ddecreasing pattern is similar.
+
+The second time series plot provides a quick closer look to see if any pattern exists within in a year when people wirte reviews in 2017. We can see that entire home/apartment and private room has similar patterns while shared room has slightly different one. Although some patterns can be observed in this plot, further exploration are required to get more insights. 

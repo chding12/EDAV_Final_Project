@@ -160,7 +160,7 @@ Since some guest may be traveling with their pets, the last section in Part A lo
 We first use a mosaic plot to see the pet policy is correlated with boroughs. We then use a grouped bar charts to looked the shares of listings that allow for specific types of pets.
 
 ```{r}
-listings_pets <- read_csv("~/Desktop/Columbia/Spring 2018/EDAV/Final_Project/listings_pets.csv", col_types = cols())
+listings_pets <- read_csv("listings_pets.csv", col_types = cols())
 
 ls_pets <- listings_pets %>%
   mutate(pets = ifelse(str_detect(amenities,'pets allowed') | str_detect(amenities,'cat') | str_detect(amenities,'dog'),1,0))

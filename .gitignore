@@ -15,3 +15,5 @@ reviewsPlus.csv
 neighbourhoods.geojson
 Exploratory_words_files/
 Exploratory_words_cache/
+.RData
+.Rhistory
