@@ -28,6 +28,8 @@ We are interested in getting a hollistic picture of the Airbnb trends in New Yor
 - What are some essential amenities in popular Airbnb spaces?  
 - What are the general policies regarding bringing pets?  
 - What are the key words people leave in comments, when they like or dislike a place?  
+- Do they write differnt length of comments when they stay in differnt room types? 
+- Is the length of review longer or shorter when they favor a place?
 
 ### Our Team
 Chin-Wen Chang: 
