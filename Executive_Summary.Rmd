@@ -62,14 +62,14 @@ knitr::include_graphics("images/ReviewWordcloudLow.png")
 In contrast to the adjective words collected from reviews of listings with higher ratings, the first thing catches our eyes in this wordcloud plot from low-rating listings is that grey words become more obvious. Although we can see some positive words similar to the review words collected from high-rating listings, the proportion of negative words increases. Among the negative words, "bad" is the most frequent, following by "dirty", "loud", "uncomfortable". One interesting observation from both wordclouds is that, irrespective of high or low ratings, general expression words ("great", "bad") are used more frequently in reviews that words related to the description of the listings. 
 
 ### Variation of Reviews Length for High and Low Ratings Listings
-```{r}
+```{r out.width = "500px"}
 knitr::include_graphics("images/ReviewsRatings.png")
 ```
 
 This bar chart shows variation of the length of reviews in the combination of room types and the reviews rating category of listings and provides insights on users behaviour. The x-axis is the rating category while the axis is the average number of words. The color represents three room types: Entire home(black), Private room (brown) and Shared room (blue). When it comes to write about experiences, people intend to write longer reviews as they talk about good experiences. By comparing category A and C, we can see that the number of words increases as the good feelngs goes up. While, in terms of room types, there is no difference of the three room types, Entire home/apartment have longer reviews followed by the room type Private room.
 
 ### Change of the Length of Reviews over years
-```{r}
+```{r out.width = "500px"}
 knitr::include_graphics("images/ReviewsRoomtype.png")
 ```
 
