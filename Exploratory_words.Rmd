@@ -67,7 +67,7 @@ ls <- listingsAll %>%
 visna(ls, sort='c')
 ```
 
-As you can see from the above plot, three missing pattern of summary and review scores in the listingsAll dataset are present. Most listings have both reviews scores and summary. Records having missing value in review scores only are around 1/3 of the complete recoreds, while a very small portion of records miss only summary or both reviews scores and summary. As we needed both summary and review scores for later text analysis, rows where either of these two columns are null were removed before ploting the reviews scores distribution in 1.3.  
+As you can see from the above plot, three missing pattern of summary and review scores in the listingsAll dataset are present. Most listings have both reviews scores and summary. Records having missing value in review scores only are around 1/3 of the complete recoreds, while a very small portion of records miss only summary or both reviews scores and summary. As we needed both summary and review scores for later text analysis, rows where either of these two columns are null were removed before ploting the reviews scores distribution in 4.1.1.  
 
 # 4. Main Analysis (Exploratory Data Analysis)
 ## I.Overview
@@ -190,7 +190,7 @@ wordcloud(df_C$word, df_C$freq,
 
 ```
 
-Visitors' experiences after staying in a listing can be revealed by sentiment analysis on the words in their reviews. We first did sentiment analysis on the adjective words of the reivews to identify words with positive or negative sentiments. As it is shown in the above two wordclouds, mostly positive words appeared in the reviews of listings with good ratings (Group A). As we moved to group C, although we could still see a few positive words in the reviews, more negative words appeared. Moreover, some words, such as "wonderful", "super", and "fantastic", to express exceptionally good feelings or opinions became less obvious or disappeared in the group C wordcloud.
+Visitors' experiences after staying in a listing can be revealed by sentiment analysis on the words in their reviews. We first did sentiment analysis on the adjective words of the reivews to identify words with positive or negative sentiments. As it is shown in the above two wordclouds, mostly positive words appeared in the reviews of listings with good ratings (Group A). As we moved to group C, although we could still see a few positive words in the reviews, more negative words appeared. Moreover, some words, such as "wonderful", "super", and "fantastic", to express exceptionally good feelings or opinions became less obvious or disappeared in the group C wordcloud. The choice of color is vision deficiency friendly.
 
 ### 4.4.2 Is the length of reviews of each room-type or borough different?
 ```{r}
@@ -244,7 +244,7 @@ ss <- gl %>%
 ss
 ```
 
-As each borough has its own characteristics and would attract visitors coming to NYC for differnt purposes, we would like to know if the length of reviews would be varied according to room-types in a specific borough. As we can see from the bar chart, there is no correlation of the length of reviews and boroughs. However, people intend to write longer reviews for entire home/apartment than for private room and shared room. It is worth pointing out that shared room on Staten Island has lengthy reviews compared to the other combinations. It might be due to a small number of reviews written for shared room on Staten Island, which is confirmed by finding out that there is onyl one review in the combination of these two categorical variables.      
+As each borough has its own characteristics and would attract visitors coming to NYC for differnt purposes, we would like to know if the length of reviews would be varied according to room-types in a specific borough. As we can see from the bar chart, there is no correlation of the length of reviews and boroughs. However, people intend to write longer reviews for entire home/apartment than for private room and shared room. It is worth pointing out that shared room on Staten Island has lengthy reviews compared to the other combinations. It might be due to a small number of reviews written for shared room on Staten Island, which is confirmed by finding out that there is onyl one review in the combination of these two categorical variables. The choice of color is vision deficiency friendly.      
 
 ### 4.4.3 Is the length of review of each room-type or rating category different?
 ```{r fig.width=5, fig.height=5}
@@ -265,13 +265,15 @@ m2 <- vcd::mosaic(rating_categ~room_type, data=r2t,
 # bar chart
 p <- ggplot(data=r2, aes(x=rating_categ, 
                     y=avg_words, fill=room_type)) +
-geom_bar(stat="identity", position=position_dodge())
-p + scale_fill_manual(values=cbbPalette)
+geom_bar(stat="identity", position=position_dodge())+
+scale_fill_manual(values=cbbPalette)+
+  theme_grey(base_size = 18) 
+p
 ```
 
 The length of reviews is a feature to observe how visitors would describe their good or not-so-good experiences and to see if difference exist among room types. In the mosaic plot, we can see there is an interaction between room type and rating category. While the number of words does not vary much for each rating category for shared room, it changes when people stay in entire home/apartment or private room with good experiences (rating group A or B). This observation reveals an interesing aspect of human behaviours showing that people are willing to put more efforts in terms of review length to talk about their good or wonderful experiences than average ones. 
 
-The change of review length is more prominent when we presented it using bar chart stratified by room types within each rating group. There is not difference among room types when people talk about not-so-satisfying experiences as shown in group C. In contrast, people use more words to describe their good and wonderful experiences (as shown in Group A and B) and, similar to the previous observation in section 4.4.2, the length of reviews increases from shared room, private room to entire home/apartment when visitors talk about their experiences in those difference venues. 
+The change of review length is more prominent when we presented it using bar chart stratified by room types within each rating group. There is not difference among room types when people talk about not-so-satisfying experiences as shown in group C. In contrast, people use more words to describe their good and wonderful experiences (as shown in Group A and B) and, similar to the previous observation in section 4.4.2, the length of reviews increases from shared room, private room to entire home/apartment when visitors talk about their experiences in those difference venues. The choice of color is vision deficiency friendly. 
 
 ### 4.4.4 Does the length of reviews become shorter or longer over time?
 ```{r fig.width=5, fig.height=5}
@@ -313,9 +315,9 @@ p + scale_color_manual(values=cbPalette)
 
 ```
 
-One way to follow the change of users' behaviour on Airbnb over time is to see the amount of efforts they are willing to share their experiences, suggested by the length of review in the past years. The first time series plot clearly demonstrates that the number of reviews decreases over years and is independent of room types. In general, the number of reviews drops at the beginning of a year after the peak in the previous year. Again, the number peaks around Spring and Summer. It decreases for a few months and reaches a peak at the end of a year corresponding to Christmas holidays. There exists difference of reviews length over time among room types, but the overal ddecreasing pattern is similar.
+One way to follow the change of users' behaviour on Airbnb over time is to see the amount of efforts they are willing to share their experiences, suggested by the length of review in the past years. The first time series plot clearly demonstrates that the number of reviews decreases over years and is independent of room types. In general, the number of reviews drops at the beginning of a year after the peak in the previous year. Again, the number peaks around Spring and Summer. It decreases for a few months and reaches a peak at the end of a year corresponding to Christmas holidays. There exists difference of reviews length over time among room types, but the overal ddecreasing pattern is similar. The choice of color is vision deficiency friendly.
 
-The second time series plot provides a quick closer look to see if any pattern exists within in a year when people wirte reviews in 2017. We can see that entire home/apartment and private room has similar patterns while shared room has slightly different one. Although some patterns can be observed in this plot, further exploration are required to get more insights.
+The second time series plot provides a quick closer look to see if any pattern exists within in a year when people wirte reviews in 2017. We can see that entire home/apartment and private room has similar patterns while shared room has slightly different one. Although some patterns can be observed in this plot, further exploration are required to get more insights. The choice of color is vision deficiency friendly.
 
 ## V. Summary
 In summary, we have interesting findings in our text analytics on how listing owners portray their places (adjective words used in summary and description of amenities) and user behaviours in writting reviews (words to express sentiments on accommodation, efforts spent to write reviews based on room types or experiences in the venue, change of review length over time). 

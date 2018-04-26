@@ -44,3 +44,33 @@ knitr::include_graphics('images/most_reviewed_50.png')
 ```
 
 While the statistic of how many times a listing is booked is not available in our data, we do have access to see the number of reviews each listing has, and we take this as an indicator of a listing's popularity. When we aggregate number of reviews by neighbourhoods and rank them, the top five most reviewed / most popular neighbourhoods are : Bedford-Stuyvesant (Brooklyn), Williamsburg (Brooklyn), Harlem (Manhattan), Hell's Kitchen (Manhattan), and East Village (Manhattan). The top two neighbourhoods are both in Brooklyn possibly due a combination of culture popularity and economical prices, as we discovered earlier, Brooklyn tend to offer more friendly prices than Manhattan. 
+
+### Most Common Adjective Words in Reviews
+
+```{r}
+knitr::include_graphics("images/ReviewWordcloudHigh.png")
+```
+
+Words used in reviews to describe experiences can vary in different domains of business. In this plot, brown color indicates words with positive sentimen while grey words represents negative words. The size of the words is proportional to its frequency. This word cloud is made of the top 200 common words from the reiviews of the listings with high rating. Here, we can notice two major groups of adjective words used in visitors' reviews. One group of words to express their general feelings while the other group is to describe the conditions of places. To express feelings, people like to use general positive words, such as "great", "good", "nice". While describing a place, one would use "spacious", "clean", "safe". 
+
+Since those words are collected from listings with high ratings, we can notice that the majority are positive words (in brown). Only a small portion of negative words (in grey) are in this collection. Within this collection, a set of words to express high level of satisfaction can be observed (e.g. "super", "fantastic", "wonderful").    
+
+```{r}
+knitr::include_graphics("images/ReviewWordcloudLow.png")
+```
+
+In contrast to the adjective words collected from reviews of listings with higher ratings, the first thing catches our eyes in this wordcloud plot from low-rating listings is that grey words become more obvious. Although we can see some positive words similar to the review words collected from high-rating listings, the proportion of negative words increases. Among the negative words, "bad" is the most frequent, following by "dirty", "loud", "uncomfortable". One interesting observation from both wordclouds is that, irrespective of high or low ratings, general expression words ("great", "bad") are used more frequently in reviews that words related to the description of the listings. 
+
+### Variation of Reviews Length for High and Low Ratings Listings
+```{r}
+knitr::include_graphics("images/ReviewsRatings.png")
+```
+
+This bar chart shows variation of the length of reviews in the combination of room types and the reviews rating category of listings and provides insights on users behaviour. The x-axis is the rating category while the axis is the average number of words. The color represents three room types: Entire home(black), Private room (brown) and Shared room (blue). When it comes to write about experiences, people intend to write longer reviews as they talk about good experiences. By comparing category A and C, we can see that the number of words increases as the good feelngs goes up. While, in terms of room types, there is no difference of the three room types, Entire home/apartment have longer reviews followed by the room type Private room.
+
+### Change of the Length of Reviews over years
+```{r}
+knitr::include_graphics("images/ReviewsRoomtype.png")
+```
+
+In this line chart, we present the change of the length of reviews from 2014 to 2018. The x-axis represents year while the y-axis shows the average number of words in reviews in each room type. Line colors are used for three different kinds of room types - Entire home/apartment (grey), Private room (brown) and Shared room (blue). As you can see in the plot, the trend clearly indeicates that the review length decreases gradually from around 53 words in 2014 to 33 words n 2018 on the average of the three room types. It may be due to change of users behvaiour generally online or specifically to airbnb website.  
