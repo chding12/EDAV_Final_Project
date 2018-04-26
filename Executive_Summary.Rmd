@@ -25,7 +25,7 @@ As of March 4th 2018, there are 48825 Airbnb listings available in New York City
 knitr::include_graphics('images/price_by_borough.png')
 ```
 
-The vast majority of Airbnb prices lie between \$0 to \$400 per night. The most common prices happen somewhere between \$50 to \$150 depending on the borough. Among the two most popular boroughs, Brooklyn tend to have more cheaper Airbnb places with prices listed most frequently (over 50%) around \$50 to \$100. Overall price distribution in Brooklyn is even more concentrated on the cheaper side-- over 90% of listings are below \$200 per night.
+The vast majority of Airbnb prices lie between \$0 to \$400 per night. The most common prices happen somewhere between \$50 to \$150 depending on the borough. Among the two most popular boroughs Manhattan and Brooklyn, Brooklyn tends to have more cheaper Airbnb places with prices listed most frequently (over 50%) around \$50 to \$100. Overall price distribution in Brooklyn is highly concentrated on the cheaper side-- over 90% of listings are below \$200 per night.
 
 Manhattan on the other hand is slightly more expensive and prices are more evenly distributed. The most frequent prices per night are still in the neighbourhood of \$50 to \$100, but the total count in this interval is significantly lower than that in Brooklyn, meaning that there is a higher percentage of listings in Manhattan that have higher prices such as in the \$100 - \$200 range or even over \$200. In fact, one can find more listings with prices overall \$200 in Manhattan than in any other boroughs. 
 
