@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>New York City</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style>
+      .xAxis{
+        font: 16px times;
+      }
+      .yAxis{
+        font: 12px times;
+      }
+    </style>
+  </head>
+
+  <body>
+      <div style="width: 1200px; display: table;">
+        <div style="display: table-row">
+            <div id="map_div" style="width: 800px; display: table-cell;"></div>
+            <div id="bar_div" style="width: 400px; display: table-cell;">
+              <div style="position: absolute; left: 900px; top: 800px; font-size: 20px" >
+              <ul>
+                <li>Please click on your neighbourhood of interest for results</li>
+                <li>Neighbourhood Distributions are played in the alphabetical order of their names</li>
+              </ul>
+              </div>
+            </div>
+        </div>
+      </div>
+      <script>
+
+        var w = 1000;
+        var h = 1000;
+        var margin = {top: 225, right: 75, bottom: 25, left: 75};
+        var innerWidth = w/2+100 - margin.left - margin.right;
+        var innerHeight = h/2+200 - margin.top - margin.bottom;
+        var dur = 1000;
+        var epsilon = 10;
+
+        var svg = d3.select("#map_div")
+                    .append("svg")
+                    .attr("id","map")
+                    .attr("width", w)
+                    .attr("height", h);
+
+        svg.append("rect").attr("x", 0)
+                          .attr("y", 0)
+                          .attr("width", w)
+                          .attr("height", h)
+                          .attr("fill", "lightblue");
+
+        var svg_bar = d3.select("#bar_div")
+                    .append("svg")
+                    .attr("id","bar")
+                    .attr("width", w/2+100)
+                    .attr("height", h)
+                    .style("display","block")
+                    .style("margin","auto");
+
+        svg_bar.append("rect").attr("x", 0)
+                      .attr("y", 0)
+                      .attr("width", w/2+100)
+                      .attr("height", h)
+                      .attr("fill", "lightblue");
+
+        const map_generator = d3.geoMercator().center([-74.0060, 40.7128])
+                             .scale(90000).translate([w/2, h/2]);
+
+        const mapper = d3.geoPath().projection(map_generator);
+
+        var colors = ["#7fc97f", "#beaed4", "#fdc086", "#ffff99", "#386cb0"];
+
+        var temp_map = {"Staten Island": colors[0], "Bronx": colors[1], "Manhattan": colors[2], "Brooklyn": colors[3], "Queens": colors[4]}
+
+        var fill_function = function(d){  
+          if(d.properties.neighbourhood=="Allerton"){
+            return "red";
+          }
+          return temp_map[d.properties.neighbourhood_group];
+        };
+
+        var neighs = [];
+        var neigh_data = [];
+        var ind = 0,old_ind = 0;
+
+        var fill_data = function(data){
+          var set = new Set();
+          data.map(d => set.add(d.neighbourhood_cleansed.replace(/ /g,"_")));
+          neighs = Array.from(set);
+          neighs.map(d => neigh_data.push({"Entire home/apt": 0, "Private room": 0, "Shared room": 0}))
+          data.map(function(d){
+            neigh_data[neighs.indexOf(d.neighbourhood_cleansed.replace(/ /g,"_"))][d.room_type] = parseInt(d.count);
+          });
+        }
+
+        var timeout;
+
+        function update(){
+
+          var bardata = neigh_data[ind];
+          var room_types = ["Entire home/apt", "Private room", "Shared room"];
+          var values = room_types.map(d => bardata[d]);
+          // yScale.domain([0, d3.max(data, d => d.value)]);
+          var yScale = d3.scaleLinear()
+                        .domain([0, d3.max(values)]).range([innerHeight, 0]);
+
+          var xScale = d3.scaleBand().domain(room_types)
+                    .range([0, innerWidth]).paddingInner(.1).paddingOuter(.1);
+
+          var yAxis = d3.axisLeft().scale(yScale);
+
+          var bars = svg_bar.select("#plot").selectAll("rect").data(values);
+
+          bars.enter().merge(bars)
+              .transition()
+              .duration(dur)
+              .ease(d3.easeLinear)
+              .attr("x", (d, i) => xScale(room_types[i]))
+              .attr("y", d => yScale(d))
+              .attr("width", xScale.bandwidth())
+              .attr("height", d => innerHeight - yScale(d));
+    
+
+          svg_bar.select(".yAxis")
+              .transition()
+              .duration(dur)
+              .ease(d3.easeLinear)
+              .call(yAxis);
+
+          svg.select(`#${neighs[ind].replace(/ /g,"_")}`).transition().duration(dur).ease(d3.easeLinear).attr("fill","red");
+          svg.select(`#${neighs[old_ind].replace(/ /g,"_")}`).transition().duration(dur).ease(d3.easeLinear)
+                .attr("fill",d => temp_map[d.properties.neighbourhood_group]);
+
+          timeout = setTimeout(function(){ old_ind = ind; ind=(ind+1)%neighs.length; update(); name_transition(); }, 5*dur);
+
+        };
+
+        var name_transition = function(){
+          svg_bar.select("#neigh_text").transition()
+                  .duration(dur)
+                  .ease(d3.easeLinear)
+                .text("Neighbourhood Name: "+neighs[ind])
+                // .tween("text", function () {
+                      
+                //     var new_neigh = "Neighbourhood Name: "+neighs[ind];
+                //     var len = new_neigh.length;
+                //     return function (t) {
+                //         this.textContent = new_neigh.substr(0, Math.round( t * len) );
+                //         console.log(this.textContent);
+                //     };
+                //   });
+        }
+
+       var fill_bars = function(data){
+
+        var bardata = neigh_data[ind];
+
+        var room_types = ["Entire home/apt", "Private room", "Shared room"];
+        var values = room_types.map(d => bardata[d]);
+
+        var xScale = d3.scaleBand().domain(room_types)
+                    .range([0, innerWidth]).paddingInner(.1).paddingOuter(.1);
+
+        var yScale = d3.scaleLinear()
+                        .domain([0, d3.max(values)]).range([innerHeight, 0]);
+
+        var xAxis = d3.axisBottom().scale(xScale);
+        var yAxis = d3.axisLeft().scale(yScale);
+
+        var bars = svg_bar.append("g")
+            .attr("id", "plot")
+            .attr("transform", `translate (${margin.left}, ${margin.top})`)
+            .selectAll("rect").data(values);
+
+        bars.enter().append("rect")
+            .attr("x", (d, i) => xScale(room_types[i]))
+            .attr("y", d => yScale(d))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => innerHeight - yScale(d))
+            .attr("fill","#980043");
+
+        svg_bar.append("g").attr("class", "xAxis")
+                .attr("transform", `translate (${margin.left}, ${h/2+200 - margin.bottom})`)
+                .call(xAxis);
+
+        svg_bar.append("g").attr("class", "yAxis")
+              .attr("transform", `translate (${margin.left}, ${margin.top})`)
+              .call(yAxis);
+
+        svg_bar.append("text").attr("id","neigh_text")
+                .attr("y", 100)
+                .attr("x", 100)
+                .attr("dy", ".50em")
+                .attr("font-size", 24)
+                .style('fill', 'darkGreen')
+                .text("Neighbourhood Name: "+neighs[ind]);
+       }
+
+        d3.csv("data_int.csv", function(data){
+            fill_data(data);
+            fill_bars(data);
+            timeout = setTimeout(function(){ old_ind = ind; ind=(ind+1)%neighs.length; update(); name_transition(); }, dur);
+        });
+
+        var clicked = new Boolean(false);
+        var clicked_ind = 0;
+
+        var clickHandler = function(d){
+          clicked_ind = neighs.indexOf(d.properties.neighbourhood.replace(",","")
+              .replace("-","").replace("'","").replace(",","").replace(".","").replace(/ /g,"_"));
+          clicked = new Boolean(true);
+          clearTimeout(timeout);
+          old_ind = ind;
+          ind = clicked_ind;
+          update(); name_transition();
+        }
+
+        d3.json("neighbourhoods.geojson", function(data){
+
+          var neighbourhood = svg.append("g").selectAll("path").data(data.features)
+          neighbourhood.enter().append("path").attr("d", mapper).attr("id",d=>d.properties.neighbourhood.replace(",","")
+              .replace("-","").replace("'","").replace(",","").replace(".","").replace(/ /g,"_"))
+                      .attr("fill", fill_function)
+                      .attr("stroke", "#000")
+                      .attr("stroke-width", 0.5)
+                      .on("click", clickHandler);
+          svg.append("text").attr("x",50).attr("y", 50)
+                .attr("dy", ".50em")
+                .attr("font-size", 30)
+                .text("Room Type Distribution in New York City By Neighbourhood");
+
+          var boro = ["Staten Island", "Bronx", "Manhattan", "Brooklyn", "Queens"];
+
+          svg.append("g").attr("id","legend");
+
+          var legend_colors = svg.select("#legend").selectAll("rect").data(boro);
+
+          legend_colors.enter().append("rect").attr("x",100).attr("y",(d,i) => 100+20*i)
+                .attr('width',20).attr('height',20).attr("fill",(d,i) => colors[i]);
+
+          var legend_names = svg.select("#legend").selectAll("text").data(boro);
+
+          legend_names.enter().append("text").attr("x",125).attr("y",(d,i) => 105+21*i)
+                .attr("dy", ".50em")
+                .attr("font-size", 16)
+                .text(d => d);
+
+        });
+
+    </script>
+  </body>
+
+</html>
+

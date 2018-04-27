@@ -1,0 +1,543 @@
+neighbourhood_cleansed,room_type,count
+Allerton,Entire home/apt,12
+Allerton,Private room,16
+Allerton,Shared room,1
+Arden Heights,Entire home/apt,1
+Arden Heights,Private room,3
+Arrochar,Entire home/apt,10
+Arrochar,Private room,7
+Arverne,Entire home/apt,29
+Arverne,Private room,37
+Arverne,Shared room,2
+Astoria,Entire home/apt,378
+Astoria,Private room,538
+Astoria,Shared room,24
+Bath Beach,Entire home/apt,7
+Bath Beach,Private room,8
+Battery Park City,Entire home/apt,44
+Battery Park City,Private room,18
+Battery Park City,Shared room,2
+Bay Ridge,Entire home/apt,52
+Bay Ridge,Private room,71
+Bay Ridge,Shared room,5
+Bay Terrace,Entire home/apt,4
+Bay Terrace,Private room,5
+Bay Terrace Staten Island,Entire home/apt,1
+Baychester,Entire home/apt,2
+Baychester,Private room,1
+Bayside,Entire home/apt,21
+Bayside,Private room,38
+Bayswater,Entire home/apt,1
+Bayswater,Private room,9
+BedfordStuyvesant,Entire home/apt,1431
+BedfordStuyvesant,Private room,2047
+BedfordStuyvesant,Shared room,93
+Belle Harbor,Entire home/apt,1
+Belle Harbor,Private room,2
+Bellerose,Entire home/apt,2
+Bellerose,Private room,10
+Belmont,Entire home/apt,2
+Belmont,Private room,8
+Belmont,Shared room,2
+Bensonhurst,Entire home/apt,26
+Bensonhurst,Private room,30
+Bensonhurst,Shared room,3
+Bergen Beach,Entire home/apt,6
+Bergen Beach,Private room,3
+Bergen Beach,Shared room,1
+Boerum Hill,Entire home/apt,122
+Boerum Hill,Private room,51
+Boerum Hill,Shared room,1
+Borough Park,Entire home/apt,24
+Borough Park,Private room,66
+Borough Park,Shared room,5
+Briarwood,Entire home/apt,9
+Briarwood,Private room,41
+Briarwood,Shared room,1
+Brighton Beach,Entire home/apt,23
+Brighton Beach,Private room,24
+Brighton Beach,Shared room,5
+Bronxdale,Entire home/apt,6
+Bronxdale,Private room,10
+Brooklyn Heights,Entire home/apt,130
+Brooklyn Heights,Private room,40
+Brownsville,Entire home/apt,21
+Brownsville,Private room,45
+Brownsville,Shared room,4
+Bulls Head,Private room,2
+Bushwick,Entire home/apt,597
+Bushwick,Private room,1812
+Bushwick,Shared room,80
+Cambria Heights,Entire home/apt,3
+Cambria Heights,Private room,11
+Canarsie,Entire home/apt,54
+Canarsie,Private room,61
+Canarsie,Shared room,1
+Carroll Gardens,Entire home/apt,185
+Carroll Gardens,Private room,62
+Castle Hill,Entire home/apt,1
+Castle Hill,Private room,2
+Castleton Corners,Entire home/apt,2
+Castleton Corners,Private room,3
+Chelsea,Entire home/apt,847
+Chelsea,Private room,309
+Chelsea,Shared room,18
+Chinatown,Entire home/apt,237
+Chinatown,Private room,188
+Chinatown,Shared room,2
+City Island,Entire home/apt,6
+City Island,Private room,6
+Civic Center,Entire home/apt,33
+Civic Center,Private room,24
+Claremont Village,Entire home/apt,1
+Claremont Village,Private room,16
+Clason Point,Entire home/apt,5
+Clason Point,Private room,10
+Clason Point,Shared room,6
+Clifton,Entire home/apt,8
+Clifton,Private room,8
+Clinton Hill,Entire home/apt,375
+Clinton Hill,Private room,265
+Clinton Hill,Shared room,7
+Cobble Hill,Entire home/apt,80
+Cobble Hill,Private room,28
+College Point,Entire home/apt,3
+College Point,Private room,12
+Columbia St,Entire home/apt,34
+Columbia St,Private room,10
+Columbia St,Shared room,1
+Concord,Entire home/apt,2
+Concord,Private room,12
+Concourse,Entire home/apt,18
+Concourse,Private room,38
+Concourse Village,Entire home/apt,11
+Concourse Village,Private room,23
+Concourse Village,Shared room,4
+Coney Island,Entire home/apt,7
+Coney Island,Private room,8
+Coney Island,Shared room,2
+Coop City,Private room,4
+Corona,Entire home/apt,11
+Corona,Private room,31
+Corona,Shared room,14
+Crown Heights,Entire home/apt,721
+Crown Heights,Private room,935
+Crown Heights,Shared room,31
+Cypress Hills,Entire home/apt,32
+Cypress Hills,Private room,68
+Cypress Hills,Shared room,9
+DUMBO,Entire home/apt,26
+DUMBO,Private room,15
+Ditmars Steinway,Entire home/apt,130
+Ditmars Steinway,Private room,195
+Ditmars Steinway,Shared room,5
+Dongan Hills,Entire home/apt,2
+Dongan Hills,Private room,1
+Douglaston,Entire home/apt,3
+Douglaston,Private room,5
+Downtown Brooklyn,Entire home/apt,60
+Downtown Brooklyn,Private room,31
+Downtown Brooklyn,Shared room,2
+Dyker Heights,Entire home/apt,9
+Dyker Heights,Private room,17
+East Elmhurst,Entire home/apt,29
+East Elmhurst,Private room,82
+East Elmhurst,Shared room,26
+East Flatbush,Entire home/apt,130
+East Flatbush,Private room,208
+East Flatbush,Shared room,27
+East Harlem,Entire home/apt,516
+East Harlem,Private room,661
+East Harlem,Shared room,46
+East Morrisania,Entire home/apt,2
+East Morrisania,Private room,7
+East New York,Entire home/apt,85
+East New York,Private room,92
+East New York,Shared room,5
+East Village,Entire home/apt,1293
+East Village,Private room,776
+East Village,Shared room,27
+Eastchester,Entire home/apt,5
+Eastchester,Private room,5
+Eastchester,Shared room,1
+Edenwald,Entire home/apt,3
+Edenwald,Private room,6
+Edgemere,Entire home/apt,1
+Edgemere,Private room,6
+Elmhurst,Entire home/apt,51
+Elmhurst,Private room,136
+Elmhurst,Shared room,8
+Eltingville,Entire home/apt,2
+Eltingville,Private room,2
+Emerson Hill,Entire home/apt,1
+Emerson Hill,Private room,3
+Far Rockaway,Entire home/apt,7
+Far Rockaway,Private room,16
+Far Rockaway,Shared room,3
+Fieldston,Entire home/apt,5
+Fieldston,Private room,6
+Financial District,Entire home/apt,281
+Financial District,Private room,185
+Financial District,Shared room,15
+Flatbush,Entire home/apt,249
+Flatbush,Private room,381
+Flatbush,Shared room,22
+Flatiron District,Entire home/apt,89
+Flatiron District,Private room,19
+Flatiron District,Shared room,1
+Flatlands,Entire home/apt,29
+Flatlands,Private room,42
+Flatlands,Shared room,2
+Flushing,Entire home/apt,117
+Flushing,Private room,251
+Flushing,Shared room,18
+Fordham,Entire home/apt,3
+Fordham,Private room,27
+Fordham,Shared room,2
+Forest Hills,Entire home/apt,70
+Forest Hills,Private room,81
+Forest Hills,Shared room,4
+Fort Greene,Entire home/apt,293
+Fort Greene,Private room,162
+Fort Greene,Shared room,2
+Fort Hamilton,Entire home/apt,28
+Fort Hamilton,Private room,26
+Fort Hamilton,Shared room,6
+Fort Wadsworth,Entire home/apt,1
+Fresh Meadows,Entire home/apt,10
+Fresh Meadows,Private room,11
+Fresh Meadows,Shared room,1
+Gerritsen Beach,Entire home/apt,1
+Gerritsen Beach,Private room,2
+Glen Oaks,Private room,2
+Glen Oaks,Shared room,1
+Glendale,Entire home/apt,13
+Glendale,Private room,30
+Gowanus,Entire home/apt,126
+Gowanus,Private room,96
+Gowanus,Shared room,3
+Gramercy,Entire home/apt,256
+Gramercy,Private room,115
+Gramercy,Shared room,5
+Graniteville,Entire home/apt,2
+Graniteville,Private room,1
+Grant City,Entire home/apt,1
+Gravesend,Entire home/apt,15
+Gravesend,Private room,38
+Gravesend,Shared room,2
+Great Kills,Entire home/apt,3
+Great Kills,Private room,1
+Greenpoint,Entire home/apt,592
+Greenpoint,Private room,551
+Greenpoint,Shared room,9
+Greenwich Village,Entire home/apt,326
+Greenwich Village,Private room,105
+Greenwich Village,Shared room,6
+Grymes Hill,Entire home/apt,1
+Grymes Hill,Private room,2
+Harlem,Entire home/apt,1095
+Harlem,Private room,1714
+Harlem,Shared room,75
+Hells Kitchen,Entire home/apt,1134
+Hells Kitchen,Private room,689
+Hells Kitchen,Shared room,46
+Highbridge,Entire home/apt,6
+Highbridge,Private room,26
+Hollis,Entire home/apt,3
+Hollis,Private room,4
+Hollis,Shared room,1
+Hollis Hills,Private room,1
+Holliswood,Entire home/apt,1
+Holliswood,Private room,6
+Howard Beach,Entire home/apt,5
+Howard Beach,Private room,9
+Howland Hook,Entire home/apt,1
+Huguenot,Entire home/apt,2
+Hunts Point,Entire home/apt,2
+Hunts Point,Private room,10
+Inwood,Entire home/apt,114
+Inwood,Private room,142
+Inwood,Shared room,13
+Jackson Heights,Entire home/apt,56
+Jackson Heights,Private room,109
+Jackson Heights,Shared room,17
+Jamaica,Entire home/apt,41
+Jamaica,Private room,112
+Jamaica,Shared room,6
+Jamaica Estates,Entire home/apt,8
+Jamaica Estates,Private room,9
+Jamaica Estates,Shared room,1
+Jamaica Hills,Entire home/apt,2
+Jamaica Hills,Private room,4
+Kensington,Entire home/apt,74
+Kensington,Private room,92
+Kensington,Shared room,5
+Kew Gardens,Entire home/apt,17
+Kew Gardens,Private room,21
+Kew Gardens,Shared room,6
+Kew Gardens Hills,Entire home/apt,11
+Kew Gardens Hills,Private room,8
+Kew Gardens Hills,Shared room,1
+Kingsbridge,Entire home/apt,18
+Kingsbridge,Private room,36
+Kingsbridge,Shared room,3
+Kips Bay,Entire home/apt,306
+Kips Bay,Private room,121
+Kips Bay,Shared room,20
+Laurelton,Entire home/apt,3
+Laurelton,Private room,8
+Lighthouse Hill,Entire home/apt,3
+Little Italy,Entire home/apt,53
+Little Italy,Private room,47
+Little Italy,Shared room,4
+Little Neck,Private room,2
+Long Island City,Entire home/apt,219
+Long Island City,Private room,283
+Long Island City,Shared room,19
+Longwood,Entire home/apt,13
+Longwood,Private room,27
+Lower East Side,Entire home/apt,567
+Lower East Side,Private room,431
+Lower East Side,Shared room,36
+Manhattan Beach,Entire home/apt,6
+Manhattan Beach,Private room,6
+Manhattan Beach,Shared room,1
+Marble Hill,Entire home/apt,7
+Marble Hill,Private room,5
+Marble Hill,Shared room,1
+Mariners Harbor,Entire home/apt,1
+Mariners Harbor,Private room,7
+Maspeth,Entire home/apt,33
+Maspeth,Private room,57
+Maspeth,Shared room,3
+Melrose,Entire home/apt,1
+Melrose,Private room,8
+Middle Village,Entire home/apt,13
+Middle Village,Private room,10
+Middle Village,Shared room,1
+Midland Beach,Entire home/apt,5
+Midland Beach,Private room,2
+Midtown,Entire home/apt,907
+Midtown,Private room,345
+Midtown,Shared room,27
+Midwood,Entire home/apt,31
+Midwood,Private room,68
+Midwood,Shared room,9
+Mill Basin,Entire home/apt,3
+Morningside Heights,Entire home/apt,185
+Morningside Heights,Private room,243
+Morningside Heights,Shared room,11
+Morris Heights,Entire home/apt,5
+Morris Heights,Private room,10
+Morris Heights,Shared room,3
+Morris Park,Private room,6
+Morrisania,Entire home/apt,4
+Morrisania,Private room,7
+Mott Haven,Entire home/apt,21
+Mott Haven,Private room,34
+Mount Eden,Private room,9
+Mount Hope,Entire home/apt,5
+Mount Hope,Private room,10
+Murray Hill,Entire home/apt,219
+Murray Hill,Private room,95
+Murray Hill,Shared room,14
+Navy Yard,Entire home/apt,5
+Navy Yard,Private room,6
+Neponsit,Entire home/apt,1
+New Brighton,Entire home/apt,7
+New Brighton,Private room,4
+New Dorp,Entire home/apt,1
+New Dorp,Private room,1
+New Dorp Beach,Entire home/apt,2
+New Dorp Beach,Private room,2
+New Springville,Entire home/apt,1
+New Springville,Private room,4
+New Springville,Shared room,1
+NoHo,Entire home/apt,78
+NoHo,Private room,11
+Nolita,Entire home/apt,205
+Nolita,Private room,137
+Nolita,Shared room,6
+North Riverdale,Entire home/apt,1
+North Riverdale,Private room,4
+Norwood,Entire home/apt,7
+Norwood,Private room,31
+Norwood,Shared room,1
+Oakwood,Entire home/apt,1
+Olinville,Private room,1
+Ozone Park,Entire home/apt,21
+Ozone Park,Private room,20
+Ozone Park,Shared room,2
+Park Slope,Entire home/apt,362
+Park Slope,Private room,195
+Park Slope,Shared room,4
+Parkchester,Entire home/apt,8
+Parkchester,Private room,36
+Parkchester,Shared room,2
+Pelham Bay,Entire home/apt,6
+Pelham Bay,Private room,8
+Pelham Bay,Shared room,2
+Pelham Gardens,Entire home/apt,6
+Pelham Gardens,Private room,15
+Port Morris,Entire home/apt,10
+Port Morris,Private room,12
+Port Morris,Shared room,1
+Port Richmond,Entire home/apt,2
+Port Richmond,Private room,2
+Prospect Heights,Entire home/apt,214
+Prospect Heights,Private room,164
+Prospect Heights,Shared room,1
+ProspectLefferts Gardens,Entire home/apt,283
+ProspectLefferts Gardens,Private room,278
+ProspectLefferts Gardens,Shared room,5
+Queens Village,Entire home/apt,13
+Queens Village,Private room,26
+Queens Village,Shared room,1
+Randall Manor,Entire home/apt,6
+Randall Manor,Private room,10
+Red Hook,Entire home/apt,42
+Red Hook,Private room,21
+Red Hook,Shared room,2
+Rego Park,Entire home/apt,36
+Rego Park,Private room,54
+Rego Park,Shared room,7
+Richmond Hill,Entire home/apt,22
+Richmond Hill,Private room,56
+Richmond Hill,Shared room,1
+Richmondtown,Entire home/apt,1
+Ridgewood,Entire home/apt,126
+Ridgewood,Private room,249
+Ridgewood,Shared room,9
+Riverdale,Entire home/apt,10
+Riverdale,Private room,5
+Riverdale,Shared room,2
+Rockaway Beach,Entire home/apt,26
+Rockaway Beach,Private room,18
+Rockaway Beach,Shared room,2
+Roosevelt Island,Entire home/apt,20
+Roosevelt Island,Private room,59
+Roosevelt Island,Shared room,6
+Rosebank,Private room,2
+Rosedale,Entire home/apt,8
+Rosedale,Private room,26
+Rossville,Entire home/apt,1
+Schuylerville,Entire home/apt,1
+Schuylerville,Private room,4
+Schuylerville,Shared room,1
+Sea Gate,Entire home/apt,3
+Sea Gate,Private room,5
+Sheepshead Bay,Entire home/apt,50
+Sheepshead Bay,Private room,79
+Sheepshead Bay,Shared room,16
+Shore Acres,Entire home/apt,4
+Shore Acres,Private room,5
+Silver Lake,Entire home/apt,1
+Silver Lake,Private room,3
+SoHo,Entire home/apt,281
+SoHo,Private room,124
+SoHo,Shared room,2
+Soundview,Entire home/apt,4
+Soundview,Private room,5
+South Beach,Entire home/apt,1
+South Beach,Private room,3
+South Beach,Shared room,1
+South Ozone Park,Entire home/apt,8
+South Ozone Park,Private room,24
+South Ozone Park,Shared room,1
+South Slope,Entire home/apt,205
+South Slope,Private room,91
+South Slope,Shared room,3
+Springfield Gardens,Entire home/apt,18
+Springfield Gardens,Private room,31
+Springfield Gardens,Shared room,1
+Spuyten Duyvil,Entire home/apt,3
+Spuyten Duyvil,Private room,2
+Spuyten Duyvil,Shared room,1
+St Albans,Entire home/apt,15
+St Albans,Private room,39
+St Albans,Shared room,3
+St George,Entire home/apt,31
+St George,Private room,20
+Stapleton,Entire home/apt,9
+Stapleton,Private room,14
+Stapleton,Shared room,2
+Stuyvesant Town,Entire home/apt,11
+Stuyvesant Town,Private room,14
+Sunnyside,Entire home/apt,117
+Sunnyside,Private room,205
+Sunnyside,Shared room,8
+Sunset Park,Entire home/apt,165
+Sunset Park,Private room,218
+Sunset Park,Shared room,7
+Theater District,Entire home/apt,123
+Theater District,Private room,84
+Theater District,Shared room,16
+Throgs Neck,Entire home/apt,7
+Throgs Neck,Private room,6
+Throgs Neck,Shared room,1
+Todt Hill,Entire home/apt,1
+Todt Hill,Private room,1
+Tompkinsville,Entire home/apt,8
+Tompkinsville,Private room,17
+Tottenville,Entire home/apt,3
+Tottenville,Private room,1
+Tremont,Entire home/apt,3
+Tremont,Private room,7
+Tremont,Shared room,1
+Tribeca,Entire home/apt,125
+Tribeca,Private room,57
+Tribeca,Shared room,1
+Two Bridges,Entire home/apt,26
+Two Bridges,Private room,44
+Unionport,Entire home/apt,4
+Unionport,Private room,1
+University Heights,Entire home/apt,2
+University Heights,Private room,18
+University Heights,Shared room,2
+Upper East Side,Entire home/apt,1245
+Upper East Side,Private room,479
+Upper East Side,Shared room,59
+Upper West Side,Entire home/apt,1273
+Upper West Side,Private room,703
+Upper West Side,Shared room,61
+Van Nest,Entire home/apt,6
+Van Nest,Private room,3
+Vinegar Hill,Entire home/apt,17
+Vinegar Hill,Private room,14
+Wakefield,Entire home/apt,9
+Wakefield,Private room,19
+Wakefield,Shared room,1
+Washington Heights,Entire home/apt,277
+Washington Heights,Private room,626
+Washington Heights,Shared room,38
+West Brighton,Entire home/apt,4
+West Brighton,Private room,11
+West Farms,Entire home/apt,2
+West Farms,Private room,2
+West Village,Entire home/apt,689
+West Village,Private room,155
+West Village,Shared room,8
+Westchester Square,Entire home/apt,2
+Westchester Square,Private room,4
+Westerleigh,Entire home/apt,2
+Westerleigh,Private room,1
+Whitestone,Entire home/apt,5
+Whitestone,Private room,4
+Williamsbridge,Entire home/apt,9
+Williamsbridge,Private room,27
+Williamsburg,Entire home/apt,1902
+Williamsburg,Private room,2383
+Williamsburg,Shared room,40
+Windsor Terrace,Entire home/apt,122
+Windsor Terrace,Private room,54
+Windsor Terrace,Shared room,1
+Woodhaven,Entire home/apt,9
+Woodhaven,Private room,39
+Woodhaven,Shared room,3
+Woodlawn,Entire home/apt,2
+Woodlawn,Private room,5
+Woodrow,Entire home/apt,1
+Woodrow,Private room,1
+Woodside,Entire home/apt,56
+Woodside,Private room,103
+Woodside,Shared room,7
