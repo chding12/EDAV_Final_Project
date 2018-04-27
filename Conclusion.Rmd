@@ -17,6 +17,8 @@ Some proposed future directions are:
 
 - Use the data to build models that predict future demands, price change, areas of improvement in NYC Airbnbs. 
 
+- Extract further information from text and other features out of good listings to help bad listing owners to improve their business
+
 - Integrate existing data with user demographic information to learn how to better target user groups.
 
 - Include other hotel and real estate data to study the effects Airbnb has had on NYC's tourism and real estate markets.
