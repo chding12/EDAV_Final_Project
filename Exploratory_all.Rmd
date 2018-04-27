@@ -233,9 +233,9 @@ Text analytics on Airbnb NYC dataset mainly focused on the three areas: listings
 - Does the length of reviews become shorter or longer over time?
 
 ## Preprocessing
-Most of the preprocessing in text analytics was done in python. The python codes can be found in the jupyter notebook **TextAnalytics_preprocessing.ipynb** (https://github.com/chding12/EDAV_Final_Project/blob/master/TextAnalytics_preprocessing_NLP.ipynb). Originally we have listingsAll.csv and reviewsAll.csv containing airbnb dataset in the past 10 years. After the inital cleaning process (refer to https://github.com/chding12/EDAV_Final_Project/blob/master/clean_data.Rmd) based on listingsAll.csv, we created cleaned_data.csv containing the required columns.
+Most of the preprocessing in text analytics was done in python. The python codes can be found in the jupyter notebook **TextAnalytics_preprocessing.ipynb** (https://github.com/chding12/EDAV_Final_Project/blob/master/TextAnalytics_preprocessing.ipynb). Originally we have listingsAll.csv and reviewsAll.csv containing airbnb dataset in the past 10 years. After the inital cleaning process (refer to https://github.com/chding12/EDAV_Final_Project/blob/master/clean_data.Rmd) based on listingsAll.csv, we created cleaned_data.csv containing the required columns.
 
-In TextAnalytics_preprocessing.ipynb, 4 steps are executed to complete the preprocessing for text analytics. The dataset was first loaded into pandas dataframe (https://pandas.pydata.org/) and then processed. 
+In TextAnalytics_preprocessing.ipynb, 4 steps are executed to complete the preprocessing for text analytics. The dataset was first loaded into pandas dataframe (https://pandas.pydata.org/) and then natural language were processed by using the nltk package (https://www.nltk.org/). 
 
 1. Add rating ategory to the cleaned file
 We created a new column by assigning each listing with a category based their review scores. The distribution of review scores is shown in 4.1.1 ratings distribution of the Overview section using dataset from **listingsAll.csv** and is used as references to create 3 categories of ratings (A, B and C). The new column "rating_categ" was combined to the cleaned data to create **CleanedPlus.csv**. 
