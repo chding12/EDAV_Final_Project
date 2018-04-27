@@ -205,7 +205,7 @@ wordcloud(df_C$word, df_C$freq,
 #           colors=cbbPalette_s[factor(df_A$sentiment)])
 # dev.off()
 # 
-# png("images/ReviewWordcloudLow.png", width=6, height=4, units="in", res=300)
+# png("images/ReviewWordcloudLow.png", width=6, height=5, units="in", res=300)
 # layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
 # par(mar=rep(1, 4))
 # plot.new()
@@ -356,5 +356,5 @@ One way to follow the change of users' behaviour on Airbnb over time is to see t
 
 The second time series plot provides a quick closer look to see if any pattern exists within in a year when people wirte reviews in 2017. We can see that entire home/apartment and private room has similar patterns while shared room has slightly different one. Although some patterns can be observed in this plot, further exploration are required to get more insights. The choice of color is vision deficiency friendly.
 
-## V. Summary
+## V. Text Analytics Summary
 In summary, we have interesting findings in our text analytics on how listing owners portray their places (adjective words used in summary and description of amenities) and user behaviours in writting reviews (words to express sentiments on accommodation, efforts spent to write reviews based on room types or experiences in the venue, change of review length over time). 
