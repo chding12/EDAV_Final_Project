@@ -158,9 +158,10 @@ Apparently, "kitchen", "heating" and "air conditioning", which provides comfort 
 
 ## IV. Reviews
 ### 4.4.1 Which words appear in high-rating or low-rating reviews?
-```{r fig.width=8, fig.height=8}
+```{r fig.width=8, fig.height=8, warning = FALSE}
 library(tidytext)
 library(reshape2)
+library(wordcloud)
 
 adj_r <- read.csv("adj_review.csv", stringsAsFactors=FALSE,sep = "#")
 adj_r_A <- adj_r %>%
@@ -172,22 +173,47 @@ adj_r_C <- adj_r %>%
   top_n(n=200, wt=freq)
 
 # The palette with black:
-cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+cbbPalette_s <- c("#0072B2", "#D55E00", "#CC79A7")
 
 # words in high-rating reviews
 df_A <- adj_r_A %>%
   inner_join(get_sentiments("bing")) 
-wordcloud(df_A$word, df_A$freq,
-          ordered.colors=TRUE, max.words = 200, 
-          colors=cbbPalette[factor(df_A$sentiment)])
+
+wordcloud::wordcloud(df_A$word, df_A$freq,
+          ordered.colors=TRUE, max.words = 200,
+          colors=cbbPalette_s[factor(df_A$sentiment)])
 
 # words in low-rating reviews
 df_C <- adj_r_C %>%
-  inner_join(get_sentiments("bing")) 
-wordcloud(df_C$word, df_C$freq,
-          ordered.colors=TRUE, max.words = 200, 
-          colors=cbbPalette[factor(df_C$sentiment)])
+  inner_join(get_sentiments("bing"))
 
+wordcloud(df_C$word, df_C$freq,
+          ordered.colors=TRUE, max.words = 200,
+          colors=cbbPalette_s[factor(df_C$sentiment)])
+```
+
+```{r echo=FALSE}
+## The codes below used only for saving wordclouds
+
+# png("images/ReviewWordcloudHigh.png", width=6, height=4, units="in", res=300)
+# layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+# par(mar=rep(0, 4))
+# plot.new()
+# text(x=0.5, y=0.5, "Review Words - Listings with High Scores")
+# wordcloud::wordcloud(df_A$word, df_A$freq,
+#           ordered.colors=TRUE, max.words = 200,
+#           colors=cbbPalette_s[factor(df_A$sentiment)])
+# dev.off()
+# 
+# png("images/ReviewWordcloudLow.png", width=6, height=4, units="in", res=300)
+# layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+# par(mar=rep(1, 4))
+# plot.new()
+# text(x=0.5, y=0.5, "Review Words - Listings with Low Scores")
+# wordcloud(df_C$word, df_C$freq,
+#           ordered.colors=TRUE, max.words = 200,
+#           colors=cbbPalette_s[factor(df_C$sentiment)])
+# dev.off()
 ```
 
 Visitors' experiences after staying in a listing can be revealed by sentiment analysis on the words in their reviews. We first did sentiment analysis on the adjective words of the reivews to identify words with positive or negative sentiments. As it is shown in the above two wordclouds, mostly positive words appeared in the reviews of listings with good ratings (Group A). As we moved to group C, although we could still see a few positive words in the reviews, more negative words appeared. Moreover, some words, such as "wonderful", "super", and "fantastic", to express exceptionally good feelings or opinions became less obvious or disappeared in the group C wordcloud. The choice of color is vision deficiency friendly.
@@ -219,8 +245,12 @@ gl <- rp %>%
 
 Here we created columns required for analysis on reviews. In the following analysis on the length of reviews, we used the average words of reviews to represent this feature. 
 
-```{r}
-# library(vcd)
+```{r fig.width=6, fig.height=6}
+#unloadNamespace("viridis")   
+#update.packages("viridis")
+library(viridis)
+library(dplyr)
+library(ggplot2)
 r1 <- gl %>%
   group_by(neighbourhood_group_cleansed, room_type) %>%
   dplyr::summarise(avg_words = mean(mean_words))
@@ -228,12 +258,10 @@ r1 <- gl %>%
 # Use position=position_dodge()
 p <- ggplot(data=r1, aes(x=neighbourhood_group_cleansed, 
                     y=avg_words, fill=room_type)) +
-geom_bar(stat="identity", position=position_dodge())
+  geom_bar(stat="identity", position=position_dodge()) +
+  scale_fill_viridis(discrete=TRUE, option="magma") 
 
-# The palette with black:
-cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
-
-p + scale_fill_manual(values=cbbPalette)
+p
 
 # check the number of reviews of shared room in Staten Island
 ss <- gl %>%
@@ -259,16 +287,23 @@ r2$rating_categ <- as.factor(r2$rating_categ)
 
 r2t <- xtabs(avg_words ~ rating_categ+room_type,
                    r2)
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
 m2 <- vcd::mosaic(rating_categ~room_type, data=r2t,
-                  gp = gpar(fill = cbbPalette[4:6]))
+                  gp = gpar(fill = cbbPalette[5:7]))
 
 # bar chart
 p <- ggplot(data=r2, aes(x=rating_categ, 
                     y=avg_words, fill=room_type)) +
 geom_bar(stat="identity", position=position_dodge())+
-scale_fill_manual(values=cbbPalette)+
-  theme_grey(base_size = 18) 
+scale_fill_viridis(discrete=TRUE, option="magma")+
+  theme_grey(base_size = 16) +
+  ggtitle("Review Length in Rating Category") +
+  xlab("Rating Category") + 
+  ylab("Average Number of Words")
+
 p
+ggsave(filename="images/ReviewsRatings.png", plot=p)
 ```
 
 The length of reviews is a feature to observe how visitors would describe their good or not-so-good experiences and to see if difference exist among room types. In the mosaic plot, we can see there is an interaction between room type and rating category. While the number of words does not vary much for each rating category for shared room, it changes when people stay in entire home/apartment or private room with good experiences (rating group A or B). This observation reveals an interesing aspect of human behaviours showing that people are willing to put more efforts in terms of review length to talk about their good or wonderful experiences than average ones. 
@@ -293,12 +328,14 @@ r3 <- rpg %>%
   dplyr::summarise(avg_words = mean(number_words))
 
 p <- ggplot(r3, aes(x=month, y=avg_words)) +
-  geom_line(aes(color=room_type), size=1)
-
-# The palette with grey:
-cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
-
-p + scale_color_manual(values=cbPalette)
+  geom_line(aes(color=room_type), size=1) + 
+  scale_color_viridis(discrete=TRUE, option="magma") + 
+  ggtitle("Review Length over Years") +
+  xlab("Year") + 
+  ylab("Average Number of Words")+ 
+  theme_grey(base_size = 16) 
+p
+ggsave(filename="images/ReviewsRoomtype.png", plot=p)
 ```
 
 #### weekly changes in 2017
@@ -311,7 +348,7 @@ r3 <- rpg %>%
 p <- ggplot(r3, aes(x=week, y=avg_words)) +
   geom_line(aes(color=room_type), size=1) 
 
-p + scale_color_manual(values=cbPalette)
+p + scale_color_viridis(discrete=TRUE, option="magma")
 
 ```
 
