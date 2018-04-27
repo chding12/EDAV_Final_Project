@@ -132,25 +132,22 @@
           svg.select(`#${neighs[old_ind].replace(/ /g,"_")}`).transition().duration(dur).ease(d3.easeLinear)
                 .attr("fill",d => temp_map[d.properties.neighbourhood_group]);
 
-          timeout = setTimeout(function(){ old_ind = ind; ind=(ind+1)%neighs.length; update(); name_transition(); }, 5*dur);
-
-        };
-
-        var name_transition = function(){
           svg_bar.select("#neigh_text").transition()
                   .duration(dur)
                   .ease(d3.easeLinear)
-                .text("Neighbourhood Name: "+neighs[ind])
-                // .tween("text", function () {
-                      
-                //     var new_neigh = "Neighbourhood Name: "+neighs[ind];
-                //     var len = new_neigh.length;
-                //     return function (t) {
-                //         this.textContent = new_neigh.substr(0, Math.round( t * len) );
-                //         console.log(this.textContent);
-                //     };
-                //   });
-        }
+                  // .text("Neighbourhood Name: "+neighs[ind])
+                  .tween("text", function() {
+                      var node = this;
+                      var new_neigh = "Neighbourhood Name: "+neighs[ind];
+                      var len = new_neigh.length;
+                      return function (t) {
+                          node.textContent = new_neigh.substr(0, Math.round( t * len) );
+                      };
+                    });
+
+          timeout = setTimeout(function(){ old_ind = ind; ind=(ind+1)%neighs.length; update();  }, 5*dur);
+
+        };
 
        var fill_bars = function(data){
 
@@ -200,7 +197,7 @@
         d3.csv("data_int.csv", function(data){
             fill_data(data);
             fill_bars(data);
-            timeout = setTimeout(function(){ old_ind = ind; ind=(ind+1)%neighs.length; update(); name_transition(); }, dur);
+            timeout = setTimeout(function(){ old_ind = ind; ind=(ind+1)%neighs.length; update(); }, dur);
         });
 
         var clicked = new Boolean(false);
@@ -213,7 +210,7 @@
           clearTimeout(timeout);
           old_ind = ind;
           ind = clicked_ind;
-          update(); name_transition();
+          update();
         }
 
         d3.json("neighbourhoods.geojson", function(data){
