@@ -15,7 +15,7 @@ github link: <https://github.com/chding12/EDAV_Final_Project>
 
 ## 1.Introduction
 
-For this EDAV final project, we chose to analyze Airbnb New York City data. We chose this topic because Airbnb, as an alternative choice to living in hotels while traveling, has seen grown poplarity in the recent years and has become more and more relevant to a city's tourism industry. 
+For this EDAV final project, we chose to analyze Airbnb New York City data. We chose this topic because Airbnb, as an alternative choice to living in hotels while traveling, has seen growth in poplarity in the recent years and has become more and more relevant to a city's tourism industry. 
 
 Tourism is an important part of New York City and it can be a challenge to find both affordable and pleasant housing options while visitng here. Therefore as the city's residents, our team members are interested in exploring the general utilization patterns of Airbnb in NYC and learning how it has helped / affected travellers' choices when it comes to looking for a place to stay in the city.
 
@@ -42,7 +42,7 @@ Chang Ding:
 
 Midhun Gundapuneni: 
 
-- Responsible for developing the interactive component.
+- Responsible for data cleaning, generating data and developing the interactive component, and general write-up.
 
 ## 2.Description of Data
 
