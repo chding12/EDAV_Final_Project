@@ -205,15 +205,15 @@ wordcloud(df_C$word, df_C$freq,
 #           colors=cbbPalette_s[factor(df_A$sentiment)])
 # dev.off()
 # 
-# png("images/ReviewWordcloudLow.png", width=6, height=4, units="in", res=300)
-# layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
-# par(mar=rep(1, 4))
-# plot.new()
-# text(x=0.5, y=0.5, "Review Words - Listings with Low Scores")
-# wordcloud(df_C$word, df_C$freq,
-#           ordered.colors=TRUE, max.words = 200,
-#           colors=cbbPalette_s[factor(df_C$sentiment)])
-# dev.off()
+png("images/ReviewWordcloudLow.png", width=6, height=5, units="in", res=300)
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(1, 4))
+plot.new()
+text(x=0.5, y=0.5, "Review Words - Listings with Low Scores")
+wordcloud(df_C$word, df_C$freq,
+          ordered.colors=TRUE, max.words = 200,
+          colors=cbbPalette_s[factor(df_C$sentiment)])
+dev.off()
 ```
 
 Visitors' experiences after staying in a listing can be revealed by sentiment analysis on the words in their reviews. We first did sentiment analysis on the adjective words of the reivews to identify words with positive or negative sentiments. As it is shown in the above two wordclouds, mostly positive words appeared in the reviews of listings with good ratings (Group A). As we moved to group C, although we could still see a few positive words in the reviews, more negative words appeared. Moreover, some words, such as "wonderful", "super", and "fantastic", to express exceptionally good feelings or opinions became less obvious or disappeared in the group C wordcloud. The choice of color is vision deficiency friendly.
@@ -297,7 +297,7 @@ p <- ggplot(data=r2, aes(x=rating_categ,
                     y=avg_words, fill=room_type)) +
 geom_bar(stat="identity", position=position_dodge())+
 scale_fill_viridis(discrete=TRUE, option="magma")+
-  theme_grey(base_size = 16) +
+  theme_grey(base_size = 24) +
   ggtitle("Review Length in Rating Category") +
   xlab("Rating Category") + 
   ylab("Average Number of Words")
@@ -356,5 +356,5 @@ One way to follow the change of users' behaviour on Airbnb over time is to see t
 
 The second time series plot provides a quick closer look to see if any pattern exists within in a year when people wirte reviews in 2017. We can see that entire home/apartment and private room has similar patterns while shared room has slightly different one. Although some patterns can be observed in this plot, further exploration are required to get more insights. The choice of color is vision deficiency friendly.
 
-## V. Summary
+## V. Text Analytics Summary
 In summary, we have interesting findings in our text analytics on how listing owners portray their places (adjective words used in summary and description of amenities) and user behaviours in writting reviews (words to express sentiments on accommodation, efforts spent to write reviews based on room types or experiences in the venue, change of review length over time). 
