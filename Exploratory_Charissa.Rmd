@@ -6,15 +6,16 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE,
+                      cache = TRUE)
 ```
+## Part A: Price Distribution, Room Type Distribution, and Pet Policy
 
 ## 3. Data Quality
-### Missing Data
+### I. Missing Data
 
 ```{r}
-options(warn=-1)
-
 library(readr)
 library(extracat)
 library(tidyverse)
@@ -23,6 +24,8 @@ library(RColorBrewer)
 library(stringr)
 library(vcd)
 library(gridExtra)
+library(ggthemes)
+library(viridis)
 
 listings_short <- read_csv("cleaned_data.csv",col_types = cols())
 
@@ -41,9 +44,8 @@ Although in the plot above we see blue patterns frequently, the bars on the righ
 We suspect that some rows are missing score and review information because they have low or zero reviews in place. To validate this hypothesis, we filtered the dataset to the ones that are missing 'last review', and found that almost all of these rows have 0 number of reviews. This explains the missing data pattern -- these places have very few or no reviews, and therefore are also missing score information, which is most likely to be filled out when users choose to leave a comment.
 
 ## 4. Main Analysis (Exploratory Data Analysis) 
-### Part A: Price Distribution, Room Type Distribution, and Pet Policy
 
-### Overview
+### I. Overview
 
 In part A of the Main Analysis section, we start by looking at some patterns concerning the price and popularity of the listings in New York City.
 
@@ -68,13 +70,17 @@ ggplot(most_popular_neighbourhood, aes(reorder(neighbourhood_cleansed,ttl_num_re
    ggtitle("Top 50 Most Reviewed Neighbourhoods") +
    ylab("Number of Reviews") +
    xlab("Neighbourhoods") +
-   labs(fill = 'Boroughs')
+   labs(fill = 'Boroughs') +
+   scale_fill_viridis(discrete=TRUE)
+
+ggsave('images/most_reviewed.png')
 
 ggplot(most_expensive_neighbourhood, aes(avg_price,reorder(neighbourhood_cleansed,avg_price))) + geom_point(aes(colour=neighbourhood_group_cleansed)) + 
   ggtitle("Top 50 Most Expensive Neighbourhoods") +
   xlab("Average Price") +
   ylab("Neighbourhoods") +
-  labs(colour = 'Boroughs')
+  labs(colour = 'Boroughs') +
+  scale_color_viridis(discrete = TRUE)
 ```
 
 1. From the summary table we see that Manhattan (22153) and Brooklyn (20445) have the most listings. On average, Manhattan is the most expensive (\$183 per night), followed by Staten Island (\$127 per night), Queens (\$96 per night), and Bronx (\$86 per night).
@@ -83,7 +89,7 @@ ggplot(most_expensive_neighbourhood, aes(avg_price,reorder(neighbourhood_cleanse
 
 3. Top five most expensive neighbourhoods are Fort Wadsworth (Staten Island), Westerleigh (Staten Island), Lighthouse Hill (Staten Island), Woodrow (Staten Island), and Tribeca (Manhattan). Although Staten Island doesn't have many lisitngs, top four most expensive neighbourhood by average price are all in Staten Island.
 
-### Price Distribution
+### II. Price Distribution
 
 We then want to put more focus on the prices and draw up two sets of histrogram graphs to learn about general price trend. But before doing that, we first want to look at outliers and remove some of them to reduce skewness.
 
@@ -103,36 +109,46 @@ listing_by_borough <- listings_short %>% group_by(neighbourhood_group_cleansed) 
 listing_leq_750 <- listings_short %>% filter(price<=750)
 
 ggplot(listing_leq_750, aes(price)) +
-  geom_histogram(color = 'black', fill = 'lightgray') +
+  geom_histogram(color = 'black', fill = 'gray') +
   ggtitle("Listing Price Distribution") + 
+  xlab("Price per Night") +
+  ylab("Number of Listings") 
+
+ggplot(listing_leq_750, aes(price)) +
+  geom_histogram(color='black',size=0.2,fill='gray') +
+  facet_wrap(~neighbourhood_group_cleansed)+
+  ggtitle("Listing Price Distribution by Borough") +
   xlab("Price per Night") +
   ylab("Number of Listings")
 
-ggplot(listing_leq_750, aes(price)) +
-  geom_histogram(color='black',size=0.2,fill='lightgray') +
-  facet_wrap(~neighbourhood_group_cleansed)+
-  ggtitle("Lising Price Distribution by Borough") +
-  xlab("Price per Night") +
-  ylab("Number of Listings")
+ggsave('images/price_by_borough.png')
 ```
 
 Here we want to explore the distribution of listing prices. We first plotted an overall histrogram and learned that the listing prices are still highly right skewed even after cutting out outliers. Most listings have prices under \$200 per night, and the most common prices are between \$50 to \$100. Considering the average prices of hotels in New York City is somewhere around \$200 per night, Airbnb maybe a more economical choice. 
 
 We then faceted on boroughs, and see that price distribution in Brooklyn is even more highly skewed, whereas Manhattan's price distribution is a little more spread out. 
 
-More specificly, Brooklyn tend to have a very high number of listings clustered in the price range of \$50 to \$100. Overall price distribution in Brooklyn is highly concentrated on the cheaper side-- over 90% of listings are below \$200 per night.
+More specificly, Brooklyn tends to have a very high number of listings clustered in the price range of \$50 to \$100. Overall price distribution in Brooklyn is highly concentrated on the cheaper side-- over 90% of listings are below \$200 per night.
 
 Manhattan on the other hand has a more even distribution. The most frequent prices are still between \$50 - \$100 but with a much lower percentage. Average prices in Manhattan are high due to longer and fatter tails in the distribution. This tells us that Airbnb in Brooklyn in general are cheaper than the overall distribution in the last graph, while Airbnb in Manhattan is a little bit more expensive. 
 
 Consider our findings from the introduction section - the fact that the top two most popular neighbourhoods are both located in Brooklyn maybe partially due to the lower price trends in this Borough.
 
-### Room Types
+### III. Room Types
 
 We noticed that there are three types of room available across Airbnb postings - private room, shared room, or entire home or apartment. We are interested to see if the distribution of these room types are correlated with boroughs and we decide to use mosaic plot to explore that relationship.
 
-```{r}
-p1<-mosaic(main = "Room Type by Boroughs",room_type ~ neighbourhood_group_cleansed, listings_short,gp = gpar(fill =brewer.pal(3, "Pastel2"), col = "white"),labeling = labeling_border(varnames=c(FALSE,FALSE),rot_labels = c(10,0,0,10)))
+```{r fig.show="hold"}
+#colorblind-friendly palette
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+p1<-mosaic(main = "Room Type by Boroughs",room_type ~ neighbourhood_group_cleansed, listings_short,gp = gpar(fill =cbbPalette[4:6], col = "white"),labeling = labeling_border(varnames=c(FALSE,FALSE),rot_labels = c(10,0,0,10)))
+
 p1
+
+png('images/room_type.png')
+mosaic(main = "Room Type by Boroughs",room_type ~ neighbourhood_group_cleansed, listings_short,gp = gpar(fill =cbbPalette[4:6], col = "white"),labeling = labeling_border(varnames=c(FALSE,FALSE),rot_labels = c(10,0,0,10))) 
+dev.off()
 ```     
 
 From this plot we see that room types are somewhat correlated with boroughs. More specifically, Manhattan hosts are more likely to list entire home/apt, while Queens and Brooklyn hosts are more likely to list private room within a house or apartment. Since Bronx and Staten Island have very small number of listings, their correlation with room types is nearly neglegible in the bigger picture. However, a further study on room types focused on these two boroughs may bring insteresting insights. Shared rooms are very rare across all boroughs. 
@@ -145,16 +161,16 @@ Since we previously looked at price distribution, here we combine price distribu
 ggplot(listing_leq_750, aes(price, fill = room_type)) +
   geom_histogram(color='black',size=0.2) +
   facet_wrap(~neighbourhood_group_cleansed)+
-  ggtitle("Lising Price by Borough and Room Type") +
-  scale_fill_brewer(palette = 'Pastel2') +
+  ggtitle("Listing Price by Borough and Room Type") +
   xlab("Price per Night")+
   ylab("Number of Listings")+
-  labs(fill = 'Room Type')
+  labs(fill = 'Room Type') +
+  scale_fill_viridis(discrete = TRUE)
 ```
 
 When combine room types and listing prices, we see that as price goes up, room type "Entire home/apt" starts to take a higher percentage, which is consistent with common sense since entire home usually means more space and pricacy, hence higher price. This trend stays true across all boroughs.
 
-### Pet Policy
+### IV. Pet Policy
 Since some guest may be traveling with their pets, the last section in Part A looks at the percentage of listings that allow pets to stay in their palces.
 
 We first use a mosaic plot to see the pet policy is correlated with boroughs. We then use a grouped bar charts to looked the shares of listings that allow for specific types of pets.
@@ -184,15 +200,15 @@ ls_pets <- ls_pets %>%
 
 pets_only<-filter(ls_pets,pets==1)
 
-mosaic(main ="Are pets allowed?",pets ~ neighbourhood_group_cleansed, ls_pets, gp = gpar(fill = c('lightblue','lightgreen'), col = "white"), labeling = labeling_border(varnames=c(FALSE,FALSE),rot_labels = c(0,45,30,30)))
+mosaic(main ="Are pets allowed?",pets ~ neighbourhood_group_cleansed, ls_pets, gp = gpar(fill = cbbPalette[2:3], col = "white"), labeling = labeling_border(varnames=c(FALSE,FALSE),rot_labels = c(0,45,30,30)))
 
 ggplot(pets_only, aes(x=neighbourhood_group_cleansed, fill=pet_category)) +
   geom_bar(position='dodge') +
-  scale_fill_brewer(palette = "Accent") +
   ggtitle('Pet Policy by Borough and Pet Type') +
   xlab("Neighbourhoods") +
   ylab("Number of Listings") +
-  labs(fill='Pet Category')     
+  labs(fill='Pet Category') +
+  scale_fill_colorblind()
 ```
 
 From the mosaic plot we see that pet policy may only be slightly correlated with boroughts. Overall, most listings do not explicitly state that they welcome pets, only a small percentage of listings explicitly express that they are willing to accept pets. This trend is consistent across all boroughs. Brooklyn is slightly more pet friendly, compared to the others.
