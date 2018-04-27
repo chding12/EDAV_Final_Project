@@ -14,7 +14,7 @@ The goal of this EDAV project is to learn about how Airbnb is being utilized in 
 ### Overview
 
 ```{r}
-knitr::include_graphics('images/Overall_Summary.png')
+knitr::include_graphics('images/overall_summary.png')
 ```
 
 As of March 4th 2018, there are 48825 Airbnb listings available in New York City. Among them, Manhattan and Brooklyn have the highest number of listings and highest number of reviews, indicating high availability and popularity. Manhattan has highest average price per night at \$183, followed by Staten Island at \$127.
@@ -31,8 +31,8 @@ Manhattan on the other hand is slightly more expensive and prices are more evenl
 
 ### Room Type Distribution
 
-```{r out.width = "400px"}
-knitr::include_graphics('images/Room_Type.png')
+```{r out.width = "450px"}
+knitr::include_graphics('images/room_type.png')
 ```
 
 There are three types of rooms avaiable across Airbnb listings -- private room, shared room, and entire home / apartment. Overall the shares of entire home versus single private room are relatively even. Approximately half of all the listings are private rooms and half are entire homes. The percentages fluctuate a little bit once we break the listings into boroughs. Manhattan offers a higher chance for renting an entire apartment, while the rest of the boroughs have higher shares of private rooms. Shared rooms are very rare across all boroughs.
@@ -40,7 +40,7 @@ There are three types of rooms avaiable across Airbnb listings -- private room, 
 ### Most Popular Neighbourhoods
 
 ```{r}
-knitr::include_graphics('images/most_reviewed_50.png')
+knitr::include_graphics('images/most_reviewed.png')
 ```
 
 While the statistic of how many times a listing is booked is not available in our data, we do have access to see the number of reviews each listing has, and we take this as an indicator of a listing's popularity. When we aggregate number of reviews by neighbourhoods and rank them, the top five most reviewed / most popular neighbourhoods are : Bedford-Stuyvesant (Brooklyn), Williamsburg (Brooklyn), Harlem (Manhattan), Hell's Kitchen (Manhattan), and East Village (Manhattan). The top two neighbourhoods are both in Brooklyn possibly due a combination of culture popularity and economical prices, as we discovered earlier, Brooklyn tend to offer more friendly prices than Manhattan. 
